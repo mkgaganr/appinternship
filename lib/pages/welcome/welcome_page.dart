@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hmsf_intern/pages/welcome/components/top_part.dart';
 import 'package:hmsf_intern/pages/welcome/components/center_part.dart';
-import 'package:hmsf_intern/pages/welcome//welcome_page.dart';
+import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
 
-import 'components/EndPart.dart';
+import 'package:hmsf_intern/pages/welcome/components/end_part.dart';
 
 class WelcomePage extends StatelessWidget
 

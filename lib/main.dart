@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hmsf_intern/pages/signup/signup_page.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: WelcomePage(),
+      home: SignupPage(),
     );
   }
 }
