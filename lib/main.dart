@@ -1,24 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:hmsf_intern/pages/signup/signup_page.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Clinic Appointments',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.blue,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SignupPage(),
+      home: WelcomePage(),
     );
   }
 }
-

@@ -1,5 +1,6 @@
+import 'package:hmsf_intern/components/tosat.dart';
 import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
-import 'package:hmsf_intern/pages/signup/login.dart';
+import 'package:hmsf_intern/pages/signup/signup_page.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
 import 'package:hmsf_intern/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,17 +8,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SignupPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _LoginPageState extends State<LoginPage> {
   bool visibility = true;
   String fullname = "";
   String email = "";
   String password = "";
-  var tempimg;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -54,30 +54,13 @@ class _SignupPageState extends State<SignupPage> {
                         TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Full Name",
-                            ),
-                            onChanged: (value) {
-                              fullname = value;
-                            },
-                            validator: (value) {
-                              value ??= "";
-                              if (value.trim() == "") {
-                                return "Full name required";
-                              }
-                            }),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
                               hintText: "Email address",
                             ),
                             onChanged: (value) {
                               email = value;
                             },
-                            // ignore: missing_return
                             validator: (value) {
+                              // ignore: missing_return
                               value ??= "";
                               if (value.trim() != "") {
                                 if (!value.trim().contains("@")) {
@@ -127,30 +110,22 @@ class _SignupPageState extends State<SignupPage> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
+                          .signInWithEmailAndPassword(
                               email: email.trim(), password: password.trim())
                           .then((value) async {
                         if (value.user != null) {
-                        tempimg = Firestore.instance
-                              .collection("users")
-                              .add({
-                            "name": fullname,
-                            "uid": value.user.uid
-                          }).then((value) {
-                            Fluttertoast.showToast(
-                                msg: "Regestration Sucessul");
+                          Fluttertoast.showToast(msg: "Regestration Sucessul");
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DashboardPage()),
-                            );
-                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DashboardPage()),
+                          );
                         }
                       });
                     }
                   },
-                  text: "SIGN UP",
+                  text: "Login",
                 ), // MyButton
                 SizedBox(
                   height: 20,
@@ -160,14 +135,14 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text("Already have an account?\t\t"),
                     TextButton(
-                      child: Text("LOGIN"),
+                      child: Text("SIGNUP"),
                       onPressed: () {
                         while (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         }
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return LoginPage();
+                          return SignupPage();
                         }));
                       },
                     )

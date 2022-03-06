@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CenterPart extends StatelessWidget
-{
+class CenterPart extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-        child:Image.asset("images/hospital.jpg"),
+      child: Image.asset("assets/hospital.jpg"),
     );
   }
 }
