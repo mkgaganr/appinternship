@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DashboardPage extends StatelessWidget {
-Widget listTile({IconData icon,String title}){
+Widget listTile({IconData? icon,String? title}){
   return ListTile(
     leading: Icon(
       icon,
       size: 45,
     ),
-    title: Text(title,style: TextStyle(color: Colors.lightGreen),),
+    title: Text(title!,style: TextStyle(color: Colors.black54),),
   );
 }
 
@@ -37,26 +37,29 @@ Widget listTile({IconData icon,String title}){
                       SizedBox(
                         height: 20,
                       ),
-                      Column(
-                        children: [
-                          Text('Welcome User'),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 30,
-                            child: OutlineButton(
-                              onPressed: (){},
-                              child: Text("Login"),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(
-                                  width: 2,
+                      Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Column(
+                          children: [
+                            Text('Welcome User'),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: 30,
+                              child: OutlineButton(
+                                onPressed: (){},
+                                child: Text("Login"),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  side: BorderSide(
+                                    width: 2,
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -86,24 +89,24 @@ Widget listTile({IconData icon,String title}){
         ),
       ),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.blueGrey),
+        iconTheme: IconThemeData(color: Colors.black54),
         title: Text('Home',
           style: TextStyle(
-            color: Colors.deepPurpleAccent,
+            color: Colors.black54,
                 fontSize: 17
         ),
           ),
         actions: [
           CircleAvatar(
             radius: 12,
-            backgroundColor: Color(0XFFd4d181),
+            backgroundColor: Colors.white30,
             child: Icon(Icons.search,size: 17,color: Colors.black,),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: CircleAvatar(
               radius: 12,
-              backgroundColor: Color(0xFFd4d181),
+              backgroundColor: Colors.white30,
               child: Icon(Icons.local_hospital,size: 17,color: Colors.black,)
             ),
           ),
@@ -122,7 +125,7 @@ Widget listTile({IconData icon,String title}){
                   image: NetworkImage('https://wallpaperaccess.com/full/1282794.jpg')
                 ),
 
-              color: Colors.lightGreen,
+              color: Color.fromARGB(242, 204, 255, 204),
                 borderRadius: BorderRadiusDirectional.circular(10)
             ),
             ),
@@ -132,4 +135,3 @@ Widget listTile({IconData icon,String title}){
     );
   }
 }
-
