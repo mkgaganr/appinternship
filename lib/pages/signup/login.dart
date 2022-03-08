@@ -1,5 +1,6 @@
 import 'package:hmsf_intern/components/tosat.dart';
 import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
+import 'package:hmsf_intern/pages/signup/forgotpassword.dart';
 import 'package:hmsf_intern/pages/signup/signup_page.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
 import 'package:hmsf_intern/widgets/my_button.dart';
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    Firestore.instance.collection("temp").add({"woo": "hoo"});
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -60,7 +61,6 @@ class _LoginPageState extends State<LoginPage> {
                               email = value;
                             },
                             validator: (value) {
-                              // ignore: missing_return
                               value ??= "";
                               if (value.trim() != "") {
                                 if (!value.trim().contains("@")) {
@@ -89,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
                                   : Icons.visibility),
                             ),
                           ),
-                          // ignore: missing_return
                           validator: (value) {
                             value ??= "";
                             if (value.trim() == "") {
@@ -143,6 +142,23 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return SignupPage();
+                        }));
+                      },
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      child: Text("Forgot password"),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ResetPage();
                         }));
                       },
                     )

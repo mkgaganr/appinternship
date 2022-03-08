@@ -1,5 +1,7 @@
+import 'package:hmsf_intern/components/tosat.dart';
 import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
 import 'package:hmsf_intern/pages/signup/login.dart';
+import 'package:hmsf_intern/pages/signup/signup_page.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
 import 'package:hmsf_intern/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,12 +9,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class SignupPage extends StatefulWidget {
+class ResetPage extends StatefulWidget {
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _ResetPageState createState() => _ResetPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _ResetPageState extends State<ResetPage> {
   bool visibility = true;
   String fullname = "";
   String email = "";
@@ -34,7 +36,7 @@ class _SignupPageState extends State<SignupPage> {
                   height: 30,
                 ),
                 const Text(
-                  "Sign up",
+                  "Reset Password",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -49,23 +51,6 @@ class _SignupPageState extends State<SignupPage> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Full Name",
-                            ),
-                            onChanged: (value) {
-                              fullname = value;
-                            },
-                            validator: (value) {
-                              value ??= "";
-                              if (value.trim() == "") {
-                                return "Full name required";
-                              }
-                            }),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -87,35 +72,6 @@ class _SignupPageState extends State<SignupPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextFormField(
-                          obscureText: visibility,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: "Password",
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  visibility = !visibility;
-                                });
-                              },
-                              icon: Icon(visibility
-                                  ? Icons.visibility_off
-                                  : Icons.visibility),
-                            ),
-                          ),
-                          validator: (value) {
-                            value ??= "";
-                            if (value.trim() == "") {
-                              return "Full name required";
-                            }
-                          },
-                          onChanged: (value) {
-                            password = value;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
                       ],
                     )),
 
@@ -123,30 +79,21 @@ class _SignupPageState extends State<SignupPage> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: email.trim(), password: password.trim())
+                          .sendPasswordResetEmail(email: email.trim())
                           .then((value) async {
-                        if (value.user != null) {
-                          await Firestore.instance
-                              .collection("users")
-                              .add({
-                            "name": fullname,
-                            "uid": value.user.uid
-                          }).then((value) {
-                            Fluttertoast.showToast(
-                                msg: "Regestration Sucessul");
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DashboardPage()),
-                            );
-                          });
+                        Fluttertoast.showToast(
+                            msg: "Please check your email for password reset.");
+                        while (Navigator.canPop(context)) {
+                          Navigator.pop(context);
                         }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginPage()),
+                        );
                       });
                     }
                   },
-                  text: "SIGN UP",
+                  text: "Reset",
                 ), // MyButton
                 SizedBox(
                   height: 20,
@@ -156,19 +103,19 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text("Already have an account?\t\t"),
                     TextButton(
-                      child: Text("LOGIN"),
+                      child: Text("SIGNUP"),
                       onPressed: () {
                         while (Navigator.canPop(context)) {
                           Navigator.pop(context);
                         }
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return LoginPage();
-                        }));
+                              return SignupPage();
+                            }));
                       },
                     )
                   ],
-                )
+                ),
               ],
             ),
           ),

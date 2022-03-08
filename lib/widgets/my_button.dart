@@ -4,8 +4,7 @@ class MyButton extends StatefulWidget {
   final void Function() onPressed;
   final String text;
   MyButton({
-    required, this.text, void Function() ,
-    required String, this.onPressed
+    required, this.onPressed, this.text,
   });
 
   @override

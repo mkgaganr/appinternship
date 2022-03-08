@@ -9,9 +9,8 @@ class EndPart extends StatelessWidget {
     return Column(
       children: [
         MyButton(
-            // ignore: missing_return
             onPressed: () {
-              print("login");
+              print("loin");
               while (Navigator.canPop(context)) {
                 Navigator.pop(context);
               }
