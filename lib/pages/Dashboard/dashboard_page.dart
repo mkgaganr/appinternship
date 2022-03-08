@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hmsf_intern/pages/admin/add_hospital.dart';
 import 'package:hmsf_intern/pages/myprofile/myprofile.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -80,6 +81,9 @@ class DashboardPage extends StatelessWidget {
               listTile(
                 icon: Icons.local_hospital,
                 title: "book bed",
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Addhospital(),),);
+                },
               ),
               listTile(
                 icon: Icons.book_online,
