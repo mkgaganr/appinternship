@@ -7,6 +7,7 @@ class Addhospital extends StatelessWidget
   TextEditingController sampledata1 = new TextEditingController();
   TextEditingController sampledata2 = new TextEditingController();
   TextEditingController sampledata3 = new TextEditingController();
+  TextEditingController sampledata4 = new TextEditingController();
   @override
  Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +47,17 @@ class Addhospital extends StatelessWidget
               SizedBox(
                 height: 10.0,
               ),
+              TextFormField(
+                controller: sampledata4,
+                decoration: InputDecoration(
+                    hintText: "no of beds"
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
               FlatButton(onPressed: (){
-                Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text};
+                Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
                 Firestore.instance.collection("test").add(data);
               }, child:Text("submit"),color: Colors.blueAccent, )
             ],
