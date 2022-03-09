@@ -2,119 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class Addhospital extends StatefulWidget
+class Addhospital extends StatelessWidget
 {
+  TextEditingController sampledata1 = new TextEditingController();
+  TextEditingController sampledata2 = new TextEditingController();
+  TextEditingController sampledata3 = new TextEditingController();
   @override
-  _AddhospitalState createState() =>_AddhospitalState();
-}
-
-class _AddhospitalState extends State<Addhospital>
-{
-  TextEditingController hospitalname=TextEditingController();
-  TextEditingController hospitallocation=TextEditingController();
-  TextEditingController noofbeds=TextEditingController();
-  final firebase =Firestore.instance;
-  add() async{
-    try{
-       await firebase.collection("hospitals")
-          .doc.set({
-        "hospitalname": hospitalname.text,
-        "hospitallocation":hospitallocation.text,
-        "noofbeds":noofbeds.value
-      });
-    } catch(e){
-      print(e);
-    }
-  }
-  update() async{
-    try{} catch(e){
-      print(e);
-    }
-  }
-  delete() async{
-    try{} catch(e){
-      print(e);
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add hospitals'),
+        title: Text('Add hospitals'
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: hospitalname,
-              decoration: InputDecoration(
-                labelText: "Hospital name",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                )
+      body: Container(
+        padding: EdgeInsets.all(40.0),
+        child: Center(
+          child: Column(
+            children: [
+              TextFormField(
+                controller: sampledata1,
+                decoration: InputDecoration(
+                  hintText: "hospital name"
+                ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            TextField(
-              controller: hospitallocation,
-              decoration: InputDecoration(
-                  labelText: "Hospital location",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  )
+              SizedBox(
+                height: 10.0,
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            TextField(
-              controller: noofbeds,
-              decoration: InputDecoration(
-                  labelText: "no of beds",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  )
+              TextFormField(
+                controller: sampledata2,
+                decoration: InputDecoration(
+                  hintText: "hospital location"
+                ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.green),
-                    onPressed: (){
-                      add();
-                      hospitalname.clear();
-                      hospitallocation.clear();
-                      noofbeds.clear();
-                    },
-                    child: Text("Add")),
-                ElevatedButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.amber),
-                    onPressed: (){
-                      update();
-                      hospitalname.clear();
-                      hospitallocation.clear();
-                      noofbeds.clear();
-                    },
-                    child: Text("Update")),
-                ElevatedButton(
-                    style: TextButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: (){
-                      delete();
-                      hospitalname.clear();
-                      hospitallocation.clear();
-                      noofbeds.clear();
-                    },
-                    child: Text("Delete")),
-              ],
-            )
-          ],
+              SizedBox(
+                height: 10.0,
+              ),
+              TextFormField(
+                controller: sampledata3,
+                decoration: InputDecoration(
+                    hintText: "hospital description"
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              FlatButton(onPressed: (){
+                Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text};
+                Firestore.instance.collection("test").add(data);
+              }, child:Text("submit"),color: Colors.blueAccent, )
+            ],
+          ),
         ),
       ),
     );
