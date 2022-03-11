@@ -10,6 +10,7 @@ class Addhospital extends StatelessWidget
   TextEditingController sampledata2 = new TextEditingController();
   TextEditingController sampledata3 = new TextEditingController();
   TextEditingController sampledata4 = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,13 +22,25 @@ class Addhospital extends StatelessWidget
         padding: EdgeInsets.all(40.0),
         child: Center(
           child: SingleChildScrollView(
+            key: _formKey,
             child: Column(
+
               children: [
                 TextFormField(
                   controller: sampledata1,
                   decoration: InputDecoration(
                       hintText: "hospital name"
                   ),
+                  validator: (value) {
+                    if(value.isEmpty || !RegExp(r'^[a-z A-z]+$').hasMatch(value))
+                      {
+                        return "Data properly";
+                      }
+                    else
+                      {
+                        return null;
+                      }
+                  },
                 ),
                 SizedBox(
                   height: 10.0,
@@ -37,6 +50,16 @@ class Addhospital extends StatelessWidget
                   decoration: InputDecoration(
                       hintText: "hospital location"
                   ),
+                  validator: (value) {
+                    if(value.isEmpty || !RegExp(r'^[a-z A-z]+$').hasMatch(value))
+                    {
+                      return "Data properly";
+                    }
+                    else
+                    {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 10.0,
@@ -46,6 +69,16 @@ class Addhospital extends StatelessWidget
                   decoration: InputDecoration(
                       hintText: "hospital description"
                   ),
+                  validator: (value) {
+                    if(value.isEmpty || !RegExp(r'^[a-z A-z]+$').hasMatch(value))
+                    {
+                      return "Data properly";
+                    }
+                    else
+                    {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 10.0,
@@ -55,12 +88,24 @@ class Addhospital extends StatelessWidget
                   decoration: InputDecoration(
                       hintText: "no of beds"
                   ),
+                  validator: (value) {
+                    if(value.isEmpty || !RegExp(r'^[a-z A-z]+$').hasMatch(value))
+                    {
+                      return "Data properly";
+                    }
+                    else
+                    {
+                      return null;
+                    }
+                  },
                 ),
                 SizedBox(
                   height: 20.0,
                 ),
-                MyButton(onPressed: (){Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
-                Firestore.instance.collection("test").add(data);}, text: "add"),
+                MyButton(onPressed: () {
+                  if(_formKey.currentState!.validate()){
+                  Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
+                Firestore.instance.collection("test").add(data);}}, text: "add"),
                 SizedBox(
                   height: 10.0,
                 ),
