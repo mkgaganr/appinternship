@@ -74,7 +74,7 @@ class Admin extends StatelessWidget {
                 icon: Icons.account_box,
                 title: "My Profile",
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Myprofile(),),);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProfileView(),),);
                 },
               ),
               listTile(

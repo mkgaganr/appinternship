@@ -1,3 +1,4 @@
+import 'package:hmsf_intern/pages/admin/all_data1.dart';
 import 'package:hmsf_intern/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -63,18 +64,7 @@ class Addappointment extends StatelessWidget
                 SizedBox(
                   height: 10.0,
                 ),
-                MyButton(onPressed: (){Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
-                Firestore.instance.collection("test").add(data);}, text: "update"),
-                SizedBox(
-                  height: 10.0,
-                ),
-                MyButton(onPressed: (){Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
-                Firestore.instance.collection("test").add(data);}, text: "delete"),
-                SizedBox(
-                  height: 10.0,
-                ),
-                MyButton(onPressed: (){Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
-                Firestore.instance.collection("test").add(data);}, text: "read"),
+                MyButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AppointmentList()));}, text: "update"),
               ],
             ),
           ),

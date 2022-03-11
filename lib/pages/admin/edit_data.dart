@@ -2,22 +2,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+class EditHospital extends StatefulWidget {
+   DocumentSnapshot data;
+   String id;
+   EditHospital({ this.data, this.id });
 
-
-class UserInformation extends StatefulWidget {
   @override
-  _UserInformationState createState() => _UserInformationState();
+  State<EditHospital> createState() => _EditHospitalState();
 }
 
-class _UserInformationState extends State<UserInformation> {
-  final Stream<QuerySnapshot> _usersStream = Firestore.instance.collection('hospitals').snapshots();
+class _EditHospitalState extends State<EditHospital> {
 
+  String field1 = "";
+  String field2 = "";
+  String field3 = "";
+  String field4 = "";
+  void initState() {
+    super.initState();
+    field1 = widget.data['field1'];
+    field2 = widget.data['field2'];
+    field3 = widget.data['field2'];
+    field4 = widget.data['noofbeds'];
+  }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,36 +44,49 @@ class _UserInformationState extends State<UserInformation> {
           ),
         ),
       ),
-      body: StreamBuilder(
-        stream: Firestore.instance.collection('test').snapshots(),
-        builder: (context,AsyncSnapshot snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
+      body: Center(
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        return ListView(
-          children:snapshot.data.documents.map((DocumentSnapshot documents) {
-            Map<String, dynamic> data = documents.data as Map<String, dynamic>;
-            return ListTile(
-                leading: Icon(Icons.local_hospital),
-            title: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+        child: Container(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            Text(data['field1']),
-            Text(data['field2']),
-            Text(data['field3']),
-            Text(data['noofbeds']),
+              TextField(
+                controller: TextEditingController()..text = widget.data['field1'],
+                onChanged: (value){
+                  field1 = value;
+                },
+              ),
+              TextField(
+                controller: TextEditingController()..text = widget.data['field2'],
+                onChanged: (value){
+                  field2 = value;
+                },
+              ),
+              TextField(
+                controller: TextEditingController()..text = widget.data['field3'],
+                onChanged: (value){
+                  field3 = value;
+                },
+              ),
+              TextField(
+                controller: TextEditingController()..text = widget.data['noofbeds'],
+                onChanged: (value){
+                  field4 = value;
+                },
+              ),
+              ElevatedButton(onPressed: () async {
+                Map <String,dynamic> data1={"field1" :field1,"field2":field2,"field3":field3,"noofbeds":field4};
+                await Firestore.instance.collection("test").document(widget.id).updateData(data1);
+              },
+                child: Text("Update Data"),
+              ),
             ],
-            ),
-            );
-          }).toList(),
-        );
-      },
-    ),
+          ),
+        ),
+      ),
+
     );
   }
 }
