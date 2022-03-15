@@ -1,19 +1,17 @@
-import 'package:hmsf_intern/pages/admin/edit_data.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 class AppointmentList extends StatefulWidget {
 
 
   @override
-  State<AppointmentList> createState() => _AppointmentState();
+  State<AppointmentList> createState() => _AppointmentListState();
 }
 
-class _AppointmentState extends State<AppointmentList> {
-
+class _AppointmentListState extends State<AppointmentList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +23,13 @@ class _AppointmentState extends State<AppointmentList> {
         ),
         elevation: 0.0,
         title: Text(
-          "Update Appointment",
+          "Book Appointment",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black54,
+
           ),
+          textAlign: TextAlign.center,
         ),
       ),
       body: StreamBuilder(
@@ -51,32 +51,43 @@ class _AppointmentState extends State<AppointmentList> {
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context,index){
               DocumentSnapshot Appointment = snapshot.data.documents[index];
-              return ListTile(
-                leading: Icon(Icons.description),
-                title: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(Appointment['doctor name']),
-                    Text(Appointment['hospital description']),
-                    Text(Appointment['hospital location']),
-                    Text(Appointment['time']),
-                  ],
-
-                ) ,
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return EditHospital(data: Appointment, id: snapshot.data.documents[index].id );
-                  },
+              return Card(
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.black, width: 1),
+                      borderRadius: BorderRadius.circular(5)
                   ),
-                  );
-                },
+
+                  leading: Icon(Icons.description),
+                  title: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(Appointment['doctor name']),
+                      Text(Appointment['hospital description']),
+                      Text(Appointment['hospital location']),
+                      Text(Appointment['time']),
+                      new Text(
+                        'Click on the icon to book',
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Icon(
+                        Icons.book_online,
+                        size: 40,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(height: 10),
+                    ],
+
+                  ) ,
+                ),
               );
             },
           );
         },
       ),
     );
-
-
   }
 }
