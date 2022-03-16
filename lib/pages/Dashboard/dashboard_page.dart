@@ -5,7 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:hmsf_intern/pages/admin/add_appointment.dart';
 import 'package:hmsf_intern/pages/admin/add_hospital.dart';
 import 'package:hmsf_intern/pages/myprofile/myprofile.dart';
+import 'package:hmsf_intern/pages/signup/login.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+
+import 'contact_app.dart';
 
 class DashboardPage extends StatelessWidget {
   get onPressed => null;
@@ -56,7 +61,9 @@ class DashboardPage extends StatelessWidget {
                           Container(
                             height: 30,
                             child: OutlineButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage(),),);
+                              },
                               child: Text("Login"),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
@@ -65,7 +72,7 @@ class DashboardPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     )
@@ -100,6 +107,9 @@ class DashboardPage extends StatelessWidget {
               listTile(
                 icon: Icons.contact_support,
                 title: "Contact us",
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact(),),);
+                },
               ),
               listTile(
                 icon: Icons.logout,
@@ -158,56 +168,75 @@ class DashboardPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Container(
-              width: 350,
-              margin: EdgeInsets.only(right: 10),
-              height: categoryHeight,
-              decoration: BoxDecoration(color: Colors.lightBlueAccent.shade400, borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Book Beds",
-                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+               Card(
+                margin: EdgeInsets.all(8.0),
+                color: Colors.blue,
+                child: InkWell(
+                  onTap: (){},
+                  splashColor: Colors.green,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+
+                        Icon(Icons.home_outlined,size:70.0,),
+                        Text('Home',style: new TextStyle(fontSize: 20.0),)
+                      ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      " ",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ],
+                  ),
+                ),
+              ),
+            Card(
+              margin: EdgeInsets.all(8.0),
+              color: Colors.blue,
+              child: InkWell(
+                onTap: (){},
+                splashColor: Colors.green,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      Icon(Icons.local_hospital_outlined,size:70.0,),
+                      Text('Book Bed',style: new TextStyle(fontSize: 20.0),)
+                    ],
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
+            Card(
+              margin: EdgeInsets.all(8.0),
+              color: Colors.blue,
+              child: InkWell(
+                onTap: (){},
+                splashColor: Colors.green,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      Icon(Icons.description_outlined,size:70.0,),
+                      Text('Book appointment',style: new TextStyle(fontSize: 20.0),)
+                    ],
+                  ),
+                ),
+              ),
             ),
-            Container(
-              width: 350,
-              margin: EdgeInsets.only(right: 10),
-              height: categoryHeight,
-              decoration: BoxDecoration(color: Colors.deepPurple.shade400, borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Book Doctor",
-                      style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Appointments",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ],
+            Card(
+              margin: EdgeInsets.all(8.0),
+              color: Colors.blue,
+              child: InkWell(
+                onTap: (){},
+                splashColor: Colors.green,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      Icon(Icons.question_answer_sharp,size:70.0,),
+                      Text('Contact us',style: new TextStyle(fontSize: 20.0),)
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -217,3 +246,5 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
+
+
