@@ -2,7 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hmsf_intern/pages/admin/all_data1.dart';
 import 'package:hmsf_intern/pages/myprofile/myprofile.dart';
+
+import 'approve_appointments.dart';
+import 'approve_booking.dart';
 
 class Admin extends StatelessWidget {
   Widget listTile({IconData icon,String title,Function onTap}){
@@ -134,8 +138,49 @@ class Admin extends StatelessWidget {
                   borderRadius: BorderRadiusDirectional.circular(10)
               ),
             ),
+            Card(
+              margin: EdgeInsets.all(8.0),
+              color: Colors.blue,
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ApproveBedsPage(),),);
+                },
+                splashColor: Colors.green,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      Icon(Icons.local_hospital_outlined,size:70.0,),
+                      Text('Approve hospital bookings',style: new TextStyle(fontSize: 20.0),)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.all(8.0),
+              color: Colors.blue,
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ApproveAppointmentsPage(),),);
+                },
+                splashColor: Colors.green,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      Icon(Icons.description_outlined,size:70.0,),
+                      Text('Appprove appointment bookings',style: new TextStyle(fontSize: 20.0),)
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
+
       ),
     );
   }

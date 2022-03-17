@@ -1,4 +1,4 @@
-import 'package:hmsf_intern/pages/admin/all_data.dart';
+
 import 'package:hmsf_intern/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -103,13 +103,13 @@ class Addhospital extends StatelessWidget
                   height: 20.0,
                 ),
                 MyButton(onPressed: () {
-                  if(_formKey.currentState!.validate()){
+                  if(_formKey.currentState.validate()){
                   Map <String,dynamic> data={"field1" :sampledata1.text,"field2":sampledata2.text,"field3":sampledata3.text,"noofbeds":sampledata4.text};
                 Firestore.instance.collection("test").add(data);}}, text: "add"),
                 SizedBox(
                   height: 10.0,
                 ),
-                MyButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HospitalList()));}, text: "update"),
+               // MyButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BookAppointmentPage()));}, text: "update"),
               ],
             ),
           ),
