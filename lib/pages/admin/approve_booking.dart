@@ -59,12 +59,42 @@ class _ApprovePageState extends State<ApproveBedsPage> {
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(Booking['Email']),
-                      Text(Booking['Name']),
-                      Text(Booking['PhoneNumber']),
-                      Text(Booking['Status']),
-                      Text(Booking['beds']),
-                      Text(Booking['hospital']),
+                      Row(
+                       children: [
+                         Text('Email:'),
+                         Text(Booking['Email']),
+                       ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Doctor name:'),
+                          Text(Booking['Name']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Phone number:'),
+                          Text(Booking['PhoneNumber']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Status:'),
+                          Text(Booking['Status']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('No of beds:'),
+                          Text(Booking['beds']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Hospital Name:'),
+                          Text(Booking['hospital']),
+                        ],
+                      ),
                       SizedBox(height: 10),
                       ElevatedButton(onPressed: (){
 

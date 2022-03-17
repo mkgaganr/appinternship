@@ -59,11 +59,37 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(Appointments['Email']),
-                      Text(Appointments['Name']),
-                      Text(Appointments['PhoneNumber']),
-                      Text(Appointments['Status']),
-                      Text(Appointments['Doctor']),
+                      Row(
+                        children: [
+                          Text('Email:'),
+                          Text(Appointments['Email']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Name:'),
+                          Text(Appointments['Name']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Phone Number:'),
+                          Text(Appointments['PhoneNumber']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Status:'),
+                          Text(Appointments['Status']),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('Doctor name:'),
+                          Text(Appointments['Doctor']),
+                        ],
+                      ),
+
                       SizedBox(height: 10),
                       ElevatedButton(onPressed: (){
 
