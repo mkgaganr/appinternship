@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ApproveBedsPage extends StatefulWidget {
 
@@ -46,72 +47,97 @@ class _ApprovePageState extends State<ApproveBedsPage> {
             return CircularProgressIndicator();
           }
           return ListView.builder(
-            itemCount: snapshot.data.documents.length,
+            itemCount: snapshot.data.docs.length,
             itemBuilder: (context,index){
-              DocumentSnapshot Booking = snapshot.data.documents[index];
-              return Card(
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.black, width: 1),
-                      borderRadius: BorderRadius.circular(5)
+              // ignore: missing_return
+              DocumentSnapshot Booking = snapshot.data.docs[index];
+              if(Booking['status'] == Booking['approved']) {
+                // ignore: missing_return, missing_return
+                return Card(
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.black, width: 1),
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    leading: Icon(Icons.local_hospital),
+                    title: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Text('Email:'),
+                            Text(Booking['Email']),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Doctor name:'),
+                            Text(Booking['Name']),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Phone number:'),
+                            Text(Booking['PhoneNumber']),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Status:'),
+                            Text(Booking['Status']),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('No of beds:'),
+                            Text(Booking['beds'].toString()),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Hospital Name:'),
+                            Text(Booking['hospital']),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(onPressed: () async {
+                          Map <String, dynamic> data1 = {"Status": "approved"};
+                          Firestore.instance.collection("Bookings").document(
+                              Booking.id).update(data1).
+                          then((value) {
+                            Firestore.instance.collection('test').document(
+                                Booking['hospital id']).update(
+                                {
+
+                                  "noofbeds": FieldValue.increment(
+                                      -Booking['beds']),
+
+                                }
+                            );
+                          },
+                          );
+                          Fluttertoast.showToast(msg: "Update Successful");
+                          Navigator.of(context).pop();
+                        },
+                          child: Text("Approve"),
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(onPressed: () {
+
+                        },
+                          child: Text("Disapprove"),
+                        ),
+                      ],
+
+                    ),
                   ),
-                  leading: Icon(Icons.local_hospital),
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                       children: [
-                         Text('Email:'),
-                         Text(Booking['Email']),
-                       ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Doctor name:'),
-                          Text(Booking['Name']),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Phone number:'),
-                          Text(Booking['PhoneNumber']),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Status:'),
-                          Text(Booking['Status']),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('No of beds:'),
-                          Text(Booking['beds']),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Hospital Name:'),
-                          Text(Booking['hospital']),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(onPressed: (){
+                );
+              }
+              else
+                {
+                 print('no bookings to approve');
+                }
 
-                      },
-                        child: Text("Approve"),
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(onPressed: (){
-
-                      },
-                        child: Text("Disapprove"),
-                      ),
-                    ],
-
-                  ) ,
-                ),
-              );
             },
           );
         },
