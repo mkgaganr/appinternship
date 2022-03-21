@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hmsf_intern/pages/admin/all_data1.dart';
 import 'package:hmsf_intern/pages/myprofile/myprofile.dart';
 
+import 'Add_admin.dart';
 import 'approve_appointments.dart';
 import 'approve_booking.dart';
 
@@ -78,7 +79,7 @@ class Admin extends StatelessWidget {
                 icon: Icons.account_box,
                 title: "My Profile",
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProfileView(),),);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Myprofile(),),);
                 },
               ),
               listTile(
@@ -173,6 +174,26 @@ class Admin extends StatelessWidget {
 
                       Icon(Icons.description_outlined,size:70.0,),
                       Text('Appprove appointment bookings',style: new TextStyle(fontSize: 20.0),)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              margin: EdgeInsets.all(8.0),
+              color: Colors.blue,
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignUpadmin(),),);
+                },
+                splashColor: Colors.green,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      Icon(Icons.description_outlined,size:70.0,),
+                      Text('Add new admin',style: new TextStyle(fontSize: 20.0),)
                     ],
                   ),
                 ),
