@@ -15,6 +15,7 @@ import 'contact_app.dart';
 class DashboardPage extends StatelessWidget {
   get onPressed => null;
 
+
   Widget listTile({IconData icon,String title,Function onTap}){
     return ListTile(
       onTap: onTap,
@@ -24,6 +25,8 @@ class DashboardPage extends StatelessWidget {
       ),
       title: Text(title,style: TextStyle(color: Colors.black54),),
     );
+
+
   }
 
 
@@ -87,7 +90,7 @@ class DashboardPage extends StatelessWidget {
                 icon: Icons.account_box,
                 title: "My Profile",
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ProfileView(),),);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Myprofile(),),);
                 },
               ),
               listTile(
@@ -240,10 +243,22 @@ class DashboardPage extends StatelessWidget {
                 ),
               ),
             ),
-          ],
+            ListTile(
+              title: Text("Previous appointments",
+                style: new TextStyle(fontSize: 20),
+              ),
+              trailing: Wrap(
+                spacing: 12,
+                children: <Widget>[
+                  Icon(Icons.description_sharp),
+                  Icon(Icons.arrow_forward),
+                ],
+              ),
+            )
+              ],
+            )
         ),
-      ),
-    );
+      );
   }
 }
 

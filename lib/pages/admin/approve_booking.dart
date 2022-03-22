@@ -51,7 +51,6 @@ class _ApprovePageState extends State<ApproveBedsPage> {
             itemBuilder: (context,index){
               // ignore: missing_return
               DocumentSnapshot Booking = snapshot.data.docs[index];
-              if(Booking['status'] == Booking['approved']) {
                 // ignore: missing_return, missing_return
                 return Card(
                   child: ListTile(
@@ -101,23 +100,7 @@ class _ApprovePageState extends State<ApproveBedsPage> {
                         ),
                         SizedBox(height: 10),
                         ElevatedButton(onPressed: () async {
-                          Map <String, dynamic> data1 = {"Status": "approved"};
-                          Firestore.instance.collection("Bookings").document(
-                              Booking.id).update(data1).
-                          then((value) {
-                            Firestore.instance.collection('test').document(
-                                Booking['hospital id']).update(
-                                {
 
-                                  "noofbeds": FieldValue.increment(
-                                      -Booking['beds']),
-
-                                }
-                            );
-                          },
-                          );
-                          Fluttertoast.showToast(msg: "Update Successful");
-                          Navigator.of(context).pop();
                         },
                           child: Text("Approve"),
                         ),
@@ -132,12 +115,6 @@ class _ApprovePageState extends State<ApproveBedsPage> {
                     ),
                   ),
                 );
-              }
-              else
-                {
-                 print('no bookings to approve');
-                }
-
             },
           );
         },

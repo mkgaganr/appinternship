@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'Send_Sms.dart';
+
 class ApproveAppointmentsPage extends StatefulWidget {
 
 
@@ -97,9 +99,7 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
                         child: Text("Approve"),
                       ),
                       SizedBox(height: 10),
-                      ElevatedButton(onPressed: (){
-
-                      },
+                      ElevatedButton(onPressed: ()=>SendSms(),
                         child: Text("Disapprove"),
                       ),
 

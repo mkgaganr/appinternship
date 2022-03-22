@@ -1,3 +1,9 @@
+import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
+import 'package:hmsf_intern/pages/admin/Send_Sms.dart';
+import 'package:hmsf_intern/pages/admin/admin.dart';
+import 'package:hmsf_intern/pages/admin/all_data1.dart';
+import 'package:hmsf_intern/pages/admin/update_myprofiel.dart';
+import 'package:hmsf_intern/pages/intermediate/intermediate.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: WelcomePage(),
+      home:WelcomePage(),
     );
   }
 }

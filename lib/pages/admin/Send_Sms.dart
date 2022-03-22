@@ -3,7 +3,7 @@ import 'package:flutter_sms/flutter_sms.dart';
 
 
 
-List<String> recipents = ["9380417069"];
+List<String> recipents = ["9945817812"];
 
 class SendSms extends StatelessWidget {
   @override

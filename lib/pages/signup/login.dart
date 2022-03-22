@@ -1,5 +1,6 @@
 import 'package:hmsf_intern/components/tosat.dart';
 import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
+import 'package:hmsf_intern/pages/admin/admin.dart';
 import 'package:hmsf_intern/pages/signup/forgotpassword.dart';
 import 'package:hmsf_intern/pages/signup/signup_page.dart';
 import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
@@ -37,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 30,
                 ),
                 const Text(
-                  "Sign up",
+                  "Log In",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -118,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DashboardPage()),
+                                builder: (context) => Admin()),
                           );
                         }
                       });
