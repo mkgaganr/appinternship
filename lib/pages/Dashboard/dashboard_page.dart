@@ -42,14 +42,7 @@ class DashboardPage extends StatelessWidget {
               DrawerHeader(
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white54,
-                      radius: 43,
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.black12,
-                      ),
-                    ),
+                    
                     SizedBox(
                       height: 20,
                     ),
@@ -94,20 +87,6 @@ class DashboardPage extends StatelessWidget {
                 },
               ),
               listTile(
-                icon: Icons.local_hospital,
-                title: "book bed",
-                onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Addhospital(),),);
-                },
-              ),
-              listTile(
-                icon: Icons.book_online,
-                title: "book appointment",
-                onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Addappointment(),),);
-                },
-              ),
-              listTile(
                 icon: Icons.contact_support,
                 title: "Contact us",
                 onTap: (){
@@ -136,11 +115,7 @@ class DashboardPage extends StatelessWidget {
           ),
         ),
         actions: [
-          CircleAvatar(
-            radius: 12,
-            backgroundColor: Colors.white30,
-            child: Icon(Icons.search,size: 17,color: Colors.black,),
-          ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: CircleAvatar(
@@ -171,29 +146,13 @@ class DashboardPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-               Card(
-                margin: EdgeInsets.all(8.0),
-                color: Colors.blue,
-                child: InkWell(
-                  onTap: (){},
-                  splashColor: Colors.green,
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-
-                        Icon(Icons.home_outlined,size:70.0,),
-                        Text('Home',style: new TextStyle(fontSize: 20.0),)
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             Card(
               margin: EdgeInsets.all(8.0),
               color: Colors.blue,
               child: InkWell(
-                onTap: (){},
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact(),),);
+                },
                 splashColor: Colors.green,
                 child: Center(
                   child: Column(
@@ -201,7 +160,8 @@ class DashboardPage extends StatelessWidget {
                     children: <Widget>[
 
                       Icon(Icons.local_hospital_outlined,size:70.0,),
-                      Text('Book Bed',style: new TextStyle(fontSize: 20.0),)
+                      Text('Book Bed',style: new TextStyle(fontSize: 20.0),),
+
                     ],
                   ),
                 ),
@@ -211,7 +171,9 @@ class DashboardPage extends StatelessWidget {
               margin: EdgeInsets.all(8.0),
               color: Colors.blue,
               child: InkWell(
-                onTap: (){},
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact(),),);
+                },
                 splashColor: Colors.green,
                 child: Center(
                   child: Column(
@@ -225,36 +187,6 @@ class DashboardPage extends StatelessWidget {
                 ),
               ),
             ),
-            Card(
-              margin: EdgeInsets.all(8.0),
-              color: Colors.blue,
-              child: InkWell(
-                onTap: (){},
-                splashColor: Colors.green,
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-
-                      Icon(Icons.question_answer_sharp,size:70.0,),
-                      Text('Contact us',style: new TextStyle(fontSize: 20.0),)
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text("Previous appointments",
-                style: new TextStyle(fontSize: 20),
-              ),
-              trailing: Wrap(
-                spacing: 12,
-                children: <Widget>[
-                  Icon(Icons.description_sharp),
-                  Icon(Icons.arrow_forward),
-                ],
-              ),
-            )
               ],
             )
         ),
