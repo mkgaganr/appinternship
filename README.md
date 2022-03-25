@@ -1,4 +1,4 @@
-# hmsf_intern
+# clinic
 
 A new Flutter application.
 

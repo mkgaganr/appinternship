@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "506716474252",
-    "project_id": "hmsfintern",
-    "storage_bucket": "hmsfintern.appspot.com"
+    "project_number": "985418862631",
+    "project_id": "clinic-appointments---badlav",
+    "storage_bucket": "clinic-appointments---badlav.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:506716474252:android:79e266caba489b94ee24a9",
+        "mobilesdk_app_id": "1:985418862631:android:33e0863f2d306e1ccdfe02",
         "android_client_info": {
-          "package_name": "com.example.hmsf_intern"
+          "package_name": "com.example.clinic_appointments_badlav_seva_samiti"
         }
       },
       "oauth_client": [
         {
-          "client_id": "506716474252-kb4dgkihm39kk2rhsr6jtor01ipeu4c0.apps.googleusercontent.com",
+          "client_id": "985418862631-mp32ekv73s5248iteupvm310dhkcn23t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDndA8g4XcIIvKdPjTgt2jgTRdWJWOEURY"
+          "current_key": "AIzaSyD7wdKvzEHH6eS-9O7A_ovreiU5tU1Xi_c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "506716474252-kb4dgkihm39kk2rhsr6jtor01ipeu4c0.apps.googleusercontent.com",
+              "client_id": "985418862631-mp32ekv73s5248iteupvm310dhkcn23t.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
