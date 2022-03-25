@@ -16,15 +16,23 @@ class Contact extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: 60.0,),
-                  Text(
-                    'contact for any help and queries',
-                    style: TextStyle(
-                      fontFamily: 'SourceSansPro',
-                      color: Colors.blueGrey,
-                      fontSize: 35,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Text(
+                        'Contact for any help and queries',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+
+                          fontFamily: 'SourceSansPro',
+                          color: Colors.black45,
+                          fontSize: 35,
+                          
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 80.0,),
+                  SizedBox(height: 40.0,),
                   Card(
                     color: Colors.blue[100],
                     margin:
@@ -35,11 +43,11 @@ class Contact extends StatelessWidget {
                         color: Colors.red[900],
                       ),
                       title: Text(
-                        'gagan.cs18@bmsce.ac.in',
+                        'badlavgroup2100@gmail.com',
                         style:
                         TextStyle(fontFamily: 'BalooBhai', fontSize: 18.0),
                       ),
-                      onTap: () => launch("mailto:gagan.cs18@bmsce.ac.in"),
+                      onTap: () => launch("mailto: badlavgroup2100@gmail.com"),
                     ),
                   ),
                   Card(
@@ -52,11 +60,11 @@ class Contact extends StatelessWidget {
                         color: Colors.blueAccent[900],
                       ),
                       title: Text(
-                        '+91 9380417069',
+                        '+91 9458581922',
                         style:
                         TextStyle(fontFamily: 'BalooBhai', fontSize: 18.0),
                       ),
-                      onTap: () => launch("tel:+91 93804 17069"),
+                      onTap: () => launch("tel:+91 9458581922"),
                     ),
                   ),
                 ]

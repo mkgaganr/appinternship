@@ -1,14 +1,19 @@
-import 'package:hmsf_intern/components/tosat.dart';
-import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
-import 'package:hmsf_intern/pages/admin/admin.dart';
-import 'package:hmsf_intern/pages/signup/forgotpassword.dart';
-import 'package:hmsf_intern/pages/signup/signup_page.dart';
-import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
-import 'package:hmsf_intern/widgets/my_button.dart';
+import 'package:clinic/components/tosat.dart';
+import 'package:clinic/pages/Dashboard/dashboard_page.dart';
+import 'package:clinic/pages/admin/admin.dart';
+import 'package:clinic/pages/intermediate/intermediate_page.dart';
+import 'package:clinic/pages/signup/forgotpassword.dart';
+import 'package:clinic/pages/signup/google_sign_in.dart';
+import 'package:clinic/pages/signup/signup_page.dart';
+import 'package:clinic/pages/welcome/CheckLogin.dart';
+import 'package:clinic/pages/welcome/welcome_page.dart';
+import 'package:clinic/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -24,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Firestore.instance.collection("temp").add({"woo": "hoo"});
+    FirebaseFirestore.instance.collection("temp").add({"woo": "hoo"});
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -38,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 30,
                 ),
                 const Text(
-                  "Log In",
+                  "Log in",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -108,20 +113,22 @@ class _LoginPageState extends State<LoginPage> {
 
                 MyButton(
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: email.trim(), password: password.trim())
                           .then((value) async {
                         if (value.user != null) {
-                          Fluttertoast.showToast(msg: "Regestration Sucessul");
+                          Fluttertoast.showToast(msg: "Login Successful");
 
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Admin()),
+                                builder: (context) => CheckLoginPage()),
                           );
                         }
+                      }).onError((error, stackTrace) {
+                        DisplayToast(error.toString());
                       });
                     }
                   },
@@ -133,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account?\t\t"),
+                    Text("Don't have an account?\t\t"),
                     TextButton(
                       child: Text("SIGNUP"),
                       onPressed: () {
@@ -162,9 +169,41 @@ class _LoginPageState extends State<LoginPage> {
                           return ResetPage();
                         }));
                       },
-                    )
+                    ),
+
                   ],
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+
+                      ),
+                        icon: FaIcon(FontAwesomeIcons.google,color: Colors.red,),
+                        onPressed: (){
+                          GoogleSignInPovider().LoginWithGoogle(context);
+                        },label: Text('Login with Google'))
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Colors.black,
+
+                        ),
+                        icon: FaIcon(FontAwesomeIcons.facebook,color: Colors.blue,),
+                        onPressed: (){
+                          final provider =Provider.of<GoogleSignInPovider>(context,listen: false);
+
+                        },label: Text('Sign Up with Facebook '))
+                  ],
+                ),
               ],
             ),
           ),

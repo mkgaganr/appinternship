@@ -1,5 +1,5 @@
 import 'package:clinic/pages/admin/admin.dart';
-import 'package:clinic/pages/admin/appointment_list.dart';
+import 'package:clinic/pages/admin/update_hospital.dart';
 import 'package:clinic/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,18 +7,28 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 
-class AddAppointment extends StatefulWidget
+class Edithospital1 extends StatefulWidget
 {
+  final DocumentSnapshot data;
+  final String id;
+  const Edithospital1({ Key? key, required this.data, required this.id }) : super(key: key);
   @override
-  State<AddAppointment> createState() => _AddAppointmentState();
+  State<Edithospital1> createState() => _AddhospitalState();
 }
 
-class _AddAppointmentState extends State<AddAppointment> {
+class _AddhospitalState extends State<Edithospital1> {
   bool visibility = true;
+  void initState() {
+    super.initState();
+    field1 = widget.data['field1'];
+    field2 = widget.data['field2'];
+    field3 = widget.data['field2'];
+    field4 = widget.data['noofbeds'].toString();
+  }
   String field1 = "";
   String field2 = "";
   String field3 = "";
-  String time="";
+  String field4 = "";
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,7 +41,7 @@ class _AddAppointmentState extends State<AddAppointment> {
         ),
         elevation: 0.0,
         title: Text(
-          "Add Appointment",
+          "Update Hospital",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black54,
@@ -46,21 +56,22 @@ class _AddAppointmentState extends State<AddAppointment> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+
+
+
                 const SizedBox(
                   height: 20,
                 ),
-
-
-                
 
                 Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         TextFormField(
+                            controller: TextEditingController()..text = widget.data['field1'],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Doctor name",
+                              hintText: "Hospital name",
                             ),
                             onChanged: (value) {
                               field1 = value;
@@ -68,13 +79,14 @@ class _AddAppointmentState extends State<AddAppointment> {
                             validator: (value) {
                               value ??= "";
                               if (value.trim() == "") {
-                                return "Doctor name required";
+                                return "Hospital name required";
                               }
                             }),
                         const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
+                            controller: TextEditingController()..text = widget.data['field2'],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Hospital description",
@@ -92,6 +104,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                           height: 20,
                         ),
                         TextFormField(
+                            controller: TextEditingController()..text = widget.data['field3'],
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "hospital location",
@@ -109,19 +122,20 @@ class _AddAppointmentState extends State<AddAppointment> {
                           height: 20,
                         ),
                         TextFormField(
+                            controller: TextEditingController()..text = widget.data['noofbeds'].toString(),
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Time",
+                              hintText: "no of beds",
                             ),
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             onChanged: (value) {
-                              time =value;
+                              field4=value;
                             },
                             validator: (value) {
                               value ??= "";
                               if (value.trim() == "") {
-                                return "time required";
+                                return "beds required";
                               }
                             }),
                         const SizedBox(
@@ -131,26 +145,18 @@ class _AddAppointmentState extends State<AddAppointment> {
                     )),
 
                 MyButton(
-                    onPressed: (){
+                    onPressed: () async {
                       if(_formKey.currentState!.validate()){
-                        Map <String,dynamic> data=
-                        {"doctor name" :field1,
-                          "hospital description":field2,
-                          "hospital location":field3,"time":time
-                        };
-                        FirebaseFirestore.instance.collection("appointment").add(data);
-                        Fluttertoast.showToast(msg: "Added Successfully");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Admin()));
-                        
-                        }
-                        
-                        }, 
-                        text: "add"
-                ),  // MyButton
+                        Map <String,dynamic> data1={"field1" :field1,"field2":field2,"field3":field3,"noofbeds":int.parse(field4)};
+                        await FirebaseFirestore.instance.collection("test").doc(widget.id).update(data1);
+                        Fluttertoast.showToast(msg: "Update Successful");
+                        Navigator.of(context).pop();
+                      }
+                    }, text: "add"
+                ),
                 SizedBox(
                   height: 10,
                 ),
-                MyButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AppointmentList()));}, text: "Posted Appointments"),
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:clinic/pages/admin/admin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,15 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ApproveAppointmentsPage extends StatefulWidget {
+class ApproveBedsPage extends StatefulWidget {
 
 
   @override
-  State<ApproveAppointmentsPage> createState() => _ApproveAppointmentsState();
+  State<ApproveBedsPage> createState() => _ApprovePageState();
 }
 
-class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
+class _ApprovePageState extends State<ApproveBedsPage> {
   @override
+
+  
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -24,7 +28,7 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
         ),
         elevation: 0.0,
         title: Text(
-          "Approve Appointments",
+          "Approve Bookings",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black54,
@@ -32,7 +36,7 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
         ),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Appointment Bookings').snapshots(),
+        stream: FirebaseFirestore.instance.collection('Bookings').snapshots(),
         builder: (context,AsyncSnapshot snapshot){
           if (snapshot.hasError) {
             // handle error
@@ -46,6 +50,8 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
           if(!snapshot.hasData){
             return CircularProgressIndicator();
           }
+          
+          
           Map<String,dynamic> userDataMap= {
 
           };
@@ -72,14 +78,16 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
             }
               
           } 
+          
+
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context,index){
-              DocumentSnapshot Appointments = snapshot.data!.docs[index];
+              DocumentSnapshot Booking = snapshot.data!.docs[index];
               try{
-                if(Appointments['Status']=='waiting')
-                {
-                  return Card(
+              if(Booking['Status'] == "waiting")
+              {
+              return Card(
                 child: ListTile(
                   shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.black, width: 1),
@@ -90,69 +98,100 @@ class _ApproveAppointmentsState extends State<ApproveAppointmentsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Row(
+                       children: [
+                         Text('Email:'),
+                         Text(Booking['Email'], overflow: TextOverflow.clip,),
+                       ],
+                      ),
+                      Row(
                         children: [
-                          Text('Email:'),
-                          Text(Appointments['Email']),
+                          Text('Doctor name:'),
+                          Text(Booking['Name'], overflow: TextOverflow.clip,),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Name:'),
-                          Text(Appointments['Name']),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Phone Number:'),
-                          Text(Appointments['PhoneNumber']),
+                          Text('Phone number:'),
+                          Text(Booking['PhoneNumber']),
                         ],
                       ),
                       Row(
                         children: [
                           Text('Status:'),
-                          Text(Appointments['Status']),
+                          Text(Booking['Status']),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Doctor name:'),
-                          Text(Appointments['Doctor']),
+                          Text('No of beds:'),
+                          Text(Booking['beds'].toString()),
                         ],
                       ),
-
+                      Row(
+                        children: [
+                          Text('Hospital Name:'),
+                          Text(Booking['hospital']),
+                        ],
+                      ),
                       SizedBox(height: 10),
                       ElevatedButton(onPressed: () async {
-                        Map <String,dynamic> data1={"Status": "approved"};
-                        FirebaseFirestore.instance.collection("Appointment Bookings").doc(Appointments.id).update(data1);
-                        Fluttertoast.showToast(msg: "Appointment Booked");
-                        Navigator.of(context).pop();
-                      },
+                            await FirebaseFirestore.instance.collection('test').doc(Booking['hospital id']).get()
+                            .then((value) {
+                              if(value.get('noofbeds')<Booking['beds'])
+                              {
+                                 Fluttertoast.showToast(msg: 'Requested beds are not available');
+                              }
+                              else
+                              {
+                                Map <String,dynamic> data1={"Status": "approved"};
+                            FirebaseFirestore.instance.collection("Bookings").doc(Booking.id).update(data1).
+                            then((value) 
+                            {
+                                FirebaseFirestore.instance.collection('test').doc(Booking['hospital id']).update(
+                                {
+                                  
+                                  "noofbeds": FieldValue.increment(-Booking['beds']) ,
+
+                                }
+                                );
+                            
+                              
+                                                                      
+                                                                              
+                            }
+                            );
+                            Fluttertoast.showToast(msg: "Booking Approved");
+                              }
+                            });
+
+                              
+                      
+                        },
                         child: Text("Approve"),
                       ),
                       SizedBox(height: 10),
-
                       ElevatedButton(onPressed: () async {
                         Map <String,dynamic> data1={"Status": "cancelled"};
-                        FirebaseFirestore.instance.collection("Appointment Bookings").doc(Appointments.id).update(data1);
-                        Fluttertoast.showToast(msg: "Appointment Cancelled");
+                        FirebaseFirestore.instance.collection("Bookings").doc(Booking.id).update(data1);
+                        Fluttertoast.showToast(msg: "Booking Cancelled");
                         Navigator.of(context).pop();
                       },
                         child: Text("Disapprove"),
                       ),
-
                     ],
 
                   ) ,
                 ),
               );
-              }
-              return SizedBox(height: 0.0,);
-              }
-              catch(e){
+            } 
+            return SizedBox(height: 0.0,);
+            }
+            catch(e){
               print(e);
               rethrow;
             }
               
+          
             },
           );
         },

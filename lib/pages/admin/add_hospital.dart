@@ -1,18 +1,19 @@
-import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
-import 'package:hmsf_intern/pages/signup/login.dart';
-import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
-import 'package:hmsf_intern/widgets/my_button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:clinic/pages/admin/admin.dart';
+import 'package:clinic/pages/admin/update_hospital.dart';
+import 'package:clinic/widgets/my_button.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class AddHospitalsPage extends StatefulWidget {
+
+class Addhospital extends StatefulWidget
+{
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<Addhospital> createState() => _AddhospitalState();
 }
 
-class _SignupPageState extends State<AddHospitalsPage> {
+class _AddhospitalState extends State<Addhospital> {
   bool visibility = true;
   String field1 = "";
   String field2 = "";
@@ -46,13 +47,11 @@ class _SignupPageState extends State<AddHospitalsPage> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
+                
 
 
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
 
                 Form(
@@ -115,6 +114,8 @@ class _SignupPageState extends State<AddHospitalsPage> {
                               border: OutlineInputBorder(),
                               hintText: "no of beds",
                             ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             onChanged: (value) {
                               noofbeds =value;
                             },
@@ -132,16 +133,22 @@ class _SignupPageState extends State<AddHospitalsPage> {
 
                 MyButton(
                         onPressed: (){
-                        if(_formKey.currentState.validate()){
+                        if(_formKey.currentState!.validate()){
                        Map <String,dynamic> data=
                         {"field1" :field1,
                         "field2":field2,
                         "field3":field3,"noofbeds":int.parse(noofbeds)};
-                     Firestore.instance.collection("test").add(data);}}, text: "add"
-                ),  // MyButton
+                     FirebaseFirestore.instance.collection("test").add(data);
+                     Fluttertoast.showToast(msg: "Added Successfully");
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Admin()));
+                     }
+                     }, text: "add"
+                ), 
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
+                MyButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HospitalList()));}, text: "Posted Hospitals"), // MyButton
+                
               ],
             ),
           ),

@@ -4,14 +4,12 @@ class MyButton extends StatefulWidget {
   final void Function() onPressed;
   final String text;
   MyButton({
-    required, this.onPressed, this.text,
+    required void Function() this.onPressed,
+    required String this.text,
   });
 
   @override
   _MyButtonState createState() => _MyButtonState();
-}
-
-class required {
 }
 
 class _MyButtonState extends State<MyButton> {

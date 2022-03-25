@@ -1,4 +1,4 @@
-import 'package:hmsf_intern/pages/signup/signup_page.dart';
+import 'package:clinic/pages/signup/signup_page.dart';
 import 'package:flutter/material.dart';
 
 class EndPart extends StatelessWidget {

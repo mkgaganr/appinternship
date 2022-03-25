@@ -1,32 +1,41 @@
+import 'package:clinic/pages/Dashboard/contact_app.dart';
+import 'package:clinic/pages/user/book_appointments.dart';
+import 'package:clinic/pages/user/book_beds.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hmsf_intern/pages/admin/add_appointment.dart';
-import 'package:hmsf_intern/pages/admin/add_hospital.dart';
-import 'package:hmsf_intern/pages/myprofile/myprofile.dart';
-import 'package:hmsf_intern/pages/signup/login.dart';
-import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import 'package:clinic/pages/myprofile/myprofile.dart';
 
-import 'contact_app.dart';
 
 class DashboardPage extends StatelessWidget {
   get onPressed => null;
 
+  Widget textFromField(String hintText){
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.lightBlueAccent[100],
+      ),
+      child: ListTile(
+        leading: Text(hintText),
+      ),
+      );
+  }
 
-  Widget listTile({IconData icon,String title,Function onTap}){
+  Widget listTile({IconData? icon,String? title,void Function()? onTap}){
     return ListTile(
       onTap: onTap,
       leading: Icon(
         icon,
         size: 45,
       ),
-      title: Text(title,style: TextStyle(color: Colors.black54),),
+      title: Text(title!,style: TextStyle(color: Colors.black54),),
     );
-
-
   }
 
 
@@ -50,30 +59,24 @@ class DashboardPage extends StatelessWidget {
                       padding: const EdgeInsets.all(40.0),
                       child: Column(
                         children: [
-                          Text('Welcome User'),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+                            child: Center(child: Text('Welcome User',
+                                              style: TextStyle(fontSize: 20.0, fontFamily: 'sans-serif',color: Colors.black.withOpacity(0.5)),
+                                              )),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            height: 30,
-                            child: OutlineButton(
-                              onPressed: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage(),),);
-                              },
-                              child: Text("Login"),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                          ),
+                         
+                          
                         ],
                       ),
                     )
                   ],
+                  
                 ),
+                
               ),
               listTile(
                 icon: Icons.home_outlined,
@@ -86,18 +89,24 @@ class DashboardPage extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Myprofile(),),);
                 },
               ),
+              
+              
               listTile(
                 icon: Icons.contact_support,
                 title: "Contact us",
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact(),),);
-                },
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact()));
+                }
               ),
               listTile(
                 icon: Icons.logout,
                 title: "log out",
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>WelcomePage(),),);
+                  FirebaseAuth.instance.signOut().whenComplete(() {
+                    while (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  });
                 },
               ),
 
@@ -115,7 +124,7 @@ class DashboardPage extends StatelessWidget {
           ),
         ),
         actions: [
-
+          
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: CircleAvatar(
@@ -127,7 +136,8 @@ class DashboardPage extends StatelessWidget {
         ],
         backgroundColor: Color(0xff42A5F5),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
         child: Column(
           children: [
@@ -151,7 +161,7 @@ class DashboardPage extends StatelessWidget {
               color: Colors.blue,
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact(),),);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BookBedsPage(),),);
                 },
                 splashColor: Colors.green,
                 child: Center(
@@ -172,7 +182,7 @@ class DashboardPage extends StatelessWidget {
               color: Colors.blue,
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Contact(),),);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BookAppointmentsPage(),),);
                 },
                 splashColor: Colors.green,
                 child: Center(
@@ -190,8 +200,7 @@ class DashboardPage extends StatelessWidget {
               ],
             )
         ),
-      );
+      ),
+    );
   }
 }
-
-

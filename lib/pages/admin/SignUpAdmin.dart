@@ -1,20 +1,19 @@
-import 'package:clinic/pages/Dashboard/dashboard_page.dart';
-import 'package:clinic/pages/signup/login.dart';
-import 'package:clinic/widgets/my_button.dart';
+import 'package:clinic/pages/admin/admin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'google_sign_in.dart';
+import '../../widgets/my_button.dart';
 
-class SignupPage extends StatefulWidget {
+class SignUpAdminPage extends StatefulWidget {
+  const SignUpAdminPage({ Key? key }) : super(key: key);
+
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignUpAdminPage> createState() => _SignUpAdminPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignUpAdminPageState extends State<SignUpAdminPage> {
   bool visibility = true;
   String fullname = "";
   String email = "";
@@ -24,6 +23,21 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        elevation: 0.0,
+        title: Text(
+          "Add admin",
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black54,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -33,19 +47,11 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
-                const Text(
-                  "Sign up",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                
 
-                const SizedBox(
-                  height: 50,
-                ),
+                
 
                 Form(
                     key: _formKey,
@@ -126,68 +132,37 @@ class _SignupPageState extends State<SignupPage> {
                     if (_formKey.currentState!.validate()) {
                       await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
-                              email: email.trim(), password: password.trim())
+                          email: email.trim(), password: password.trim())
                           .then((value) async {
                         if (value.user != null) {
-                          await FirebaseFirestore.instance
+                           await FirebaseFirestore.instance
                               .collection("users")
                               .add({
                             "name": fullname,
                             "uid": value.user!.uid
+                          });
+                          await FirebaseFirestore.instance
+                              .collection("admin")
+                              .add({
+                            "name": fullname,
+                            "email":email,
+                            "uid": value.user!.uid
                           }).then((value) {
-                            Fluttertoast.showToast(
-                                msg: "Registration Successful");
                             FirebaseAuth.instance.currentUser!.updateDisplayName(fullname);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DashboardPage()),
-                            );
+                            Fluttertoast.showToast(
+                                msg: "Added Successfully");
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Admin()));
                           });
                         }
-                      }).onError((error, stackTrace) {
-                        Fluttertoast.showToast(msg: 'This email is already registered');
                       });
                     }
                   },
-                  text: "SIGN UP",
+                  text: "Add admin",
                 ), // MyButton
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Already have an account?\t\t"),
-                    TextButton(
-                      child: Text("LOGIN"),
-                      onPressed: () {
-                        while (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return LoginPage();
-                        }));
-                      },
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.black,
 
-                        ),
-                        icon: FaIcon(FontAwesomeIcons.google,color: Colors.red,),
-                        onPressed: (){
-                          GoogleSignInPovider().signInWithGoogle(context);
-                        },label: Text('Sign Up with Google'))
-                  ],
-                ),
               ],
             ),
           ),

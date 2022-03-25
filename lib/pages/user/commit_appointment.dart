@@ -7,16 +7,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../widgets/my_button.dart';
 
-class CommitBookingPage extends StatefulWidget {
+class CommitAppointmentPage extends StatefulWidget {
   final DocumentSnapshot data;
-  final String id;
-  const CommitBookingPage({ Key? key, required this.data, required this.id }) : super(key: key);
+  
+  const CommitAppointmentPage({ Key? key, required this.data,}) : super(key: key);
 
   @override
-  State<CommitBookingPage> createState() => _CommitBookingPageState();
+  State<CommitAppointmentPage> createState() => _CommitAppointmentPageState();
 }
 
-class _CommitBookingPageState extends State<CommitBookingPage> {
+class _CommitAppointmentPageState extends State<CommitAppointmentPage> {
   String field1 = "";
   String beds="";
   final _formKey = GlobalKey<FormState>();
@@ -26,12 +26,12 @@ class _CommitBookingPageState extends State<CommitBookingPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.menu, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         elevation: 0.0,
         title: Text(
-          "Confirm Booking",
+          "Confirm Appointment",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black54,
@@ -63,6 +63,7 @@ class _CommitBookingPageState extends State<CommitBookingPage> {
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Enter Phone number",
+                              
                             ),
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
@@ -78,41 +79,19 @@ class _CommitBookingPageState extends State<CommitBookingPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "No of Beds Required",
-                            ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                            onChanged: (value) {
-                              beds = value;
-                            },
-                            validator: (value) {
-                              value ??= "";
-                              if (value.trim() == "") {
-                                return "Beds required";
-                              }
-                            }),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
                       ],
                     )),
 
                 MyButton(
                     onPressed: (){
                       if(_formKey.currentState!.validate()){
-                        Map <String,dynamic> data=
-                        {"Name" :FirebaseAuth.instance.currentUser!.displayName,"Email":FirebaseAuth.instance.currentUser!.email,"PhoneNumber":field1,"Timestamp":Timestamp.now(),"Status": "waiting","hospital": widget.data['field1'] ,"beds": int.parse(beds),"hospital id": widget.id};
-                        FirebaseFirestore.instance.collection("Bookings").add(data);
-                        Fluttertoast.showToast(msg: "Booking sent for approval");
+                        Map <String,dynamic> data={"Name" :FirebaseAuth.instance.currentUser!.displayName,"Email":FirebaseAuth.instance.currentUser!.email,"PhoneNumber":field1,"Timestamp":Timestamp.now(),"Doctor": widget.data['doctor name'],"Status": "waiting",};
+                        FirebaseFirestore.instance.collection("Appointment Bookings").add(data);
+                        Fluttertoast.showToast(msg: "Appointment sent for approval");
                         Navigator.of(context).pop();
                         }
-                        }, text: "Confirm Booking"
+                        }, 
+                  text: "Confirm Appointmemt"
                 ),  // MyButton
                 SizedBox(
                   height: 20,

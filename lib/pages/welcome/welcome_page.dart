@@ -1,7 +1,6 @@
-import 'package:hmsf_intern/pages/welcome/components/center_part.dart';
-import 'package:hmsf_intern/pages/welcome/components/end_part.dart';
-import 'package:hmsf_intern/pages/welcome/components/top_part.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:clinic/pages/welcome/components/center_part.dart';
+import 'package:clinic/pages/welcome/components/end_part.dart';
+import 'package:clinic/pages/welcome/components/top_part.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatelessWidget {

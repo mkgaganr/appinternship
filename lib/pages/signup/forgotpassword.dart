@@ -1,9 +1,9 @@
-import 'package:hmsf_intern/components/tosat.dart';
-import 'package:hmsf_intern/pages/Dashboard/dashboard_page.dart';
-import 'package:hmsf_intern/pages/signup/login.dart';
-import 'package:hmsf_intern/pages/signup/signup_page.dart';
-import 'package:hmsf_intern/pages/welcome/welcome_page.dart';
-import 'package:hmsf_intern/widgets/my_button.dart';
+import 'package:clinic/components/tosat.dart';
+import 'package:clinic/pages/Dashboard/dashboard_page.dart';
+import 'package:clinic/pages/signup/login.dart';
+import 'package:clinic/pages/signup/signup_page.dart';
+import 'package:clinic/pages/welcome/welcome_page.dart';
+import 'package:clinic/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +77,7 @@ class _ResetPageState extends State<ResetPage> {
 
                 MyButton(
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       await FirebaseAuth.instance
                           .sendPasswordResetEmail(email: email.trim())
                           .then((value) async {
@@ -90,6 +90,8 @@ class _ResetPageState extends State<ResetPage> {
                           context,
                           MaterialPageRoute(builder: (context) => LoginPage()),
                         );
+                      }).onError((error, stackTrace) {
+                        DisplayToast(error.toString());
                       });
                     }
                   },
@@ -110,8 +112,8 @@ class _ResetPageState extends State<ResetPage> {
                         }
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return SignupPage();
-                            }));
+                          return SignupPage();
+                        }));
                       },
                     )
                   ],

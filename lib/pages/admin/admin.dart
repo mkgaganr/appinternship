@@ -1,23 +1,24 @@
+import 'package:clinic/pages/admin/SignUpAdmin.dart';
+import 'package:clinic/pages/admin/add_appointment.dart';
+import 'package:clinic/pages/admin/add_hospital.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:hmsf_intern/pages/admin/all_data1.dart';
-import 'package:hmsf_intern/pages/myprofile/myprofile.dart';
 
-import 'Add_admin.dart';
+import 'package:flutter/material.dart';
+
+import 'package:clinic/pages/myprofile/myprofile.dart';
+
 import 'approve_appointments.dart';
-import 'approve_booking.dart';
+import 'approve_bookings.dart';
 
 class Admin extends StatelessWidget {
-  Widget listTile({IconData icon,String title,Function onTap}){
+  Widget listTile({IconData? icon,String? title,void Function()? onTap}){
     return ListTile(
       onTap: onTap,
       leading: Icon(
         icon,
         size: 45,
       ),
-      title: Text(title,style: TextStyle(color: Colors.black54),),
+      title: Text(title!,style: TextStyle(color: Colors.black54),),
     );
   }
 
@@ -33,14 +34,7 @@ class Admin extends StatelessWidget {
               DrawerHeader(
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white54,
-                      radius: 43,
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.black12,
-                      ),
-                    ),
+                    
                     SizedBox(
                       height: 20,
                     ),
@@ -48,23 +42,17 @@ class Admin extends StatelessWidget {
                       padding: const EdgeInsets.all(40.0),
                       child: Column(
                         children: [
-                          Text('Welcome Admin'),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+                            child: Center(child: Text('Welcome Admin',
+                                              style: TextStyle(fontSize: 20.0, fontFamily: 'sans-serif',color: Colors.black.withOpacity(0.5)),
+                                              )),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            height: 30,
-                            child: OutlineButton(
-                              onPressed: (){},
-                              child: Text("Login"),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: BorderSide(
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                          )
+                         
+                          
                         ],
                       ),
                     )
@@ -84,15 +72,28 @@ class Admin extends StatelessWidget {
               ),
               listTile(
                 icon: Icons.local_hospital,
-                title: "add hospital",
+                title: "Add hospital",
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Addhospital(),),);
+                },
               ),
               listTile(
                 icon: Icons.book_online,
-                title: "add appointment",
+                title: "Add appointment",
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddAppointment(),),);
+                },
               ),
               listTile(
                 icon: Icons.logout,
-                title: "log out",
+                title: "Log out",
+                onTap: () {
+                  FirebaseAuth.instance.signOut().whenComplete(() {
+                    while (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  });
+                },
               ),
             ],
           ),
@@ -107,11 +108,7 @@ class Admin extends StatelessWidget {
           ),
         ),
         actions: [
-          CircleAvatar(
-            radius: 12,
-            backgroundColor: Colors.white30,
-            child: Icon(Icons.search,size: 17,color: Colors.black,),
-          ),
+         
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: CircleAvatar(
@@ -173,7 +170,7 @@ class Admin extends StatelessWidget {
                     children: <Widget>[
 
                       Icon(Icons.description_outlined,size:70.0,),
-                      Text('Appprove appointment bookings',style: new TextStyle(fontSize: 20.0),)
+                      Text('Approve appointment bookings',style: new TextStyle(fontSize: 20.0),)
                     ],
                   ),
                 ),
@@ -184,7 +181,7 @@ class Admin extends StatelessWidget {
               color: Colors.blue,
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignUpadmin(),),);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignUpAdminPage(),),);
                 },
                 splashColor: Colors.green,
                 child: Center(
@@ -201,7 +198,6 @@ class Admin extends StatelessWidget {
             ),
           ],
         ),
-
       ),
     );
   }
