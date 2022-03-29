@@ -1,5 +1,6 @@
 import 'package:clinic/pages/user/commit_appointment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,12 @@ class BookAppointmentsPage extends StatefulWidget {
 }
 
 class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
+  TextEditingController _searchcontroller = TextEditingController();
+  var selectedValue="select";
+  var select = "select";
+  List<String> items = [
+    "select"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +30,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
         ),
         elevation: 0.0,
         title: Text(
-          "Book Appointment",
+          "Book Appointments",
           style: TextStyle(
             fontSize: 18,
             color: Colors.black54,
@@ -32,7 +39,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('appointment').snapshots(),
-        builder: (context,AsyncSnapshot snapshot){
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             // handle error
             return const Text('Error');
@@ -42,120 +49,229 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
             // return progress indicator widget
             return const Center(child: CircularProgressIndicator());
           }
-          if(!snapshot.hasData){
+          if (!snapshot.hasData) {
             return CircularProgressIndicator();
           }
-          return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context,index){
-              DocumentSnapshot Hospital = snapshot.data!.docs[index];
-              return Card(
-                color: Colors.blue.shade200,
-                child: ListTile(
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.black, width: 1),
-                      borderRadius: BorderRadius.circular(5)
-                  ),
-                  leading: Icon(Icons.local_hospital,color: Colors.indigo,),
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: <Widget>[
-                            new Text('Doctor name : ',
-                              style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 20
-                              ),),
-                            new Text(Hospital['doctor name'], overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 18
-                              ),),
-                            Icon(Icons.local_hospital,
-                              color: Colors.blueAccent,)
-                          ],
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: <Widget>[
-                            new Text('Hospital description : ',
-                              style: TextStyle(
-                                  color: Colors.brown,
-                                  fontSize: 20
-                              ),),
-                            new Text(Hospital['hospital description'], overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                  color: Colors.brown,
-                                  fontSize: 18
-                              ),),
-                            Icon(Icons.description,
-                              color: Colors.brown,)
-                          ],
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: <Widget>[
-                            new Text('Hospital location : ',
-                              style: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontSize: 20
-                              ),),
-                            new Text(Hospital['hospital location'], overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontSize: 18
-                              ),),
-                            Icon(Icons.location_on,
-                              color: Colors.blueGrey,)
-                          ],
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: <Widget>[
-                            new Text('Time of appointment : ',
-                              style: TextStyle(
-                                  color: Colors.purple,
-                                  fontSize: 20
-                              ),),
-                            new Text(Hospital['time'], overflow: TextOverflow.clip,
-                              style: TextStyle(
-                                  color: Colors.purple,
-                                  fontSize: 18
-                              ),),
-                            Icon(Icons.access_alarms_sharp,
-                              color: Colors.purple,)
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                          return CommitAppointmentPage(data: Hospital,);
-                    },
-                    ),
-                    );
-                      },
-                        child: Text("Book",
-                        style: TextStyle(
-                          color: Colors.purple,
-                          fontSize: 16,
-                        ),),
-                      ),
-                    ],
 
-                  ) ,
+          List SearchList = [];
+          for (var v in snapshot.data.docs) {
+            if (_searchcontroller.text.trim() == "") {
+              SearchList = snapshot.data.docs;
+              break;
+            } else {
+              if (v.data()['doctor name'].contains(_searchcontroller.text.trim())) {
+                SearchList.add(v);
+              }
+            }
+          }
+
+          for (var v in snapshot.data.docs) {
+            if (!items.contains(v.get("hospital location"))) {
+              items.add(v.get("hospital location"));
+            }
+          }print(items);
+
+          if (selectedValue != "select") {
+            List Temp = [];
+            for (var c in SearchList) {
+              if (c.get("hospital location") == selectedValue) {
+                Temp.add(c);
+              }
+            }
+            SearchList = Temp;
+
+          }
+
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
                 ),
-              );
-            },
+                SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: DropdownButtonHideUnderline(
+
+                    child: DropdownButton2(
+                      hint: Text(
+                        'Select Item',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                      items: items
+                          .map((item) =>DropdownMenuItem<String>(
+                        value:item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
+                      )).toList(),
+                      value: selectedValue,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value as String;
+                        });
+                      },
+                      buttonHeight: 40,
+                      buttonWidth: 140,
+                      itemHeight: 40,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: SearchList.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot Hospital = SearchList[index];
+                      return Card(
+                        color: Colors.lightBlue.shade200,
+                        clipBehavior: Clip.hardEdge,
+                        child: ListTile(
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.black, width: 1),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          leading: Icon(
+                            Icons.local_hospital,
+                            color: Colors.green,
+                          ),
+                          title: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: <Widget>[
+                                    new Text(
+                                      'Doctor name : ',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 20),
+                                    ),
+                                    new Text(
+                                      Hospital['doctor name'],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.local_hospital_outlined,
+                                      color: Colors.blueAccent,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    new Text(
+                                      'Hospital description : ',
+                                      style: TextStyle(
+                                          color: Colors.blueGrey, fontSize: 20),
+                                    ),
+                                    new Text(
+                                      Hospital['hospital description'],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.blueGrey, fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.description_outlined,
+                                      color: Colors.blueGrey,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    new Text(
+                                      'Hospital location : ',
+                                      style: TextStyle(
+                                          color: Colors.brown, fontSize: 20),
+                                    ),
+                                    new Text(
+                                      Hospital['hospital location'],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.brown, fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      color: Colors.brown,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    new Text(
+                                      'Time : ',
+                                      style: TextStyle(
+                                          color: Colors.purple, fontSize: 20),
+                                    ),
+                                    new Text(
+                                      Hospital['time'],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.purple, fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.bed_rounded,
+                                      color: Colors.purple,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return CommitAppointmentPage(
+                                            data: Hospital, id: Hospital.id);
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: new Text(
+                                  "Book",
+                                  style: TextStyle(
+                                      color: Colors.deepPurple, fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

@@ -10,7 +10,7 @@ import '../../widgets/my_button.dart';
 class CommitAppointmentPage extends StatefulWidget {
   final DocumentSnapshot data;
   
-  const CommitAppointmentPage({ Key? key, required this.data,}) : super(key: key);
+  const CommitAppointmentPage({ Key? key, required this.data, required String id,}) : super(key: key);
 
   @override
   State<CommitAppointmentPage> createState() => _CommitAppointmentPageState();
