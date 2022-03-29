@@ -1,6 +1,4 @@
 import 'package:clinic/pages/Dashboard/contact_app.dart';
-import 'package:clinic/pages/user/book_appointments.dart';
-import 'package:clinic/pages/user/book_beds.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:clinic/pages/myprofile/myprofile.dart';
+
+import '../user/book_appointments.dart';
+import '../user/book_beds.dart';
 
 
 class DashboardPage extends StatelessWidget {
