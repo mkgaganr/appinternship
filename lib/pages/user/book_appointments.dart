@@ -91,7 +91,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
                   height: 10,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 10,
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -99,35 +99,67 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
                   ),
                 ),
                 SingleChildScrollView(
-                  child: DropdownButtonHideUnderline(
+                  child:DropdownButtonHideUnderline(
 
-                    child: DropdownButton2(
-                      hint: Text(
-                        'Select Item',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Theme.of(context).hintColor,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        border: Border.all(
+                          color: Colors.blue,style: BorderStyle.solid,width: 0.80
                         ),
                       ),
-                      items: items
-                          .map((item) =>DropdownMenuItem<String>(
-                        value:item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 10,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20,right: 30),
+                        child: DropdownButton2(
+
+                          style: TextStyle(
+
+                              color: Colors.blue
                           ),
+
+                          dropdownDecoration: BoxDecoration(
+                              color: Colors.purple,
+                              border: Border.all(color: Colors.grey,width: 3),
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.57),
+                                    blurRadius: 5
+                                )
+                              ]
+                          ),
+
+                          hint: Text(
+                            'Select Item',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).hintColor,
+                            ),
+                          ),
+                          items: items
+                              .map((item) =>DropdownMenuItem<String>(
+                            value:item,
+                            child:Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          )).toList(),
+
+                          value: selectedValue,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedValue = value as String;
+                            });
+                          },
+                          buttonHeight: 40,
+                          buttonWidth: 140,
+                          itemHeight: 50,
                         ),
-                      )).toList(),
-                      value: selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedValue = value as String;
-                        });
-                      },
-                      buttonHeight: 40,
-                      buttonWidth: 140,
-                      itemHeight: 40,
+                      ),
+
                     ),
                   ),
                 ),
@@ -238,7 +270,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
                                           color: Colors.purple, fontSize: 18),
                                     ),
                                     Icon(
-                                      Icons.bed_rounded,
+                                      Icons.timer,
                                       color: Colors.purple,
                                     )
                                   ],

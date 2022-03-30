@@ -1,9 +1,12 @@
 import 'package:clinic/pages/user/commit_booking.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class BookBedsPage extends StatefulWidget {
@@ -117,59 +120,67 @@ class _BookBedsPageState extends State<BookBedsPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
+
                 SingleChildScrollView(
-                  child: DropdownButtonHideUnderline(
+                    child:DropdownButtonHideUnderline(
 
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 30,right: 30),
-                      child: DropdownButton2(
-
-                        style: TextStyle(
-                            color: Colors.blue
-                        ),
-                       dropdownDecoration: BoxDecoration(
-                         color: Colors.purple,
-                         border: Border.all(color: Colors.grey,width: 3),
-                         borderRadius: BorderRadius.circular(50),
-                         boxShadow: <BoxShadow>[
-                           BoxShadow(
-                             color: Color.fromRGBO(0, 0, 0, 0.57),
-                             blurRadius: 5
-                           )
-                         ]
-                       ),
-
-                        hint: Text(
-                          'Select Item',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).hintColor,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 20,right: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(
+                              color: Colors.blue,style: BorderStyle.solid,width: 1.00
                           ),
                         ),
-                        items: items
-                            .map((item) =>DropdownMenuItem<String>(
-                          value:item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 12,
+                          child: DropdownButton2(
+                            style: TextStyle(
+                                color: Colors.blue
                             ),
+                           dropdownDecoration: BoxDecoration(
+                             color: Colors.purple,
+                             border: Border.all(color: Colors.grey,width: 3),
+                             borderRadius: BorderRadius.circular(50),
+                             boxShadow: <BoxShadow>[
+                               BoxShadow(
+                                 color: Color.fromRGBO(0, 0, 0, 0.57),
+                                 blurRadius: 5
+                               )
+                             ]
+                           ),
+
+                            hint: Text(
+                              'Select Item',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Theme.of(context).hintColor,
+                              ),
+                            ),
+                            items: items
+                                .map((item) =>DropdownMenuItem<String>(
+                              value:item,
+                                child:Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                            )).toList(),
+
+                            value: selectedValue,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedValue = value as String;
+                              });
+                            },
+                            buttonHeight: 40,
+                            buttonWidth: 140,
+                            itemHeight: 40,
                           ),
-                        )).toList(),
-                        value: selectedValue,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedValue = value as String;
-                          });
-                        },
-                        buttonHeight: 40,
-                        buttonWidth: 140,
-                        itemHeight: 40,
+
                       ),
                     ),
-                  ),
                 ),
                   SizedBox(
                     height: 10,
