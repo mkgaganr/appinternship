@@ -1,6 +1,7 @@
 import 'package:clinic/pages/user/commit_appointment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,10 @@ class BookAppointmentsPage extends StatefulWidget {
 
 class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
   TextEditingController _searchcontroller = TextEditingController();
-  var selectedValue="select";
+  var selectedValue="select a city";
   var select = "select";
   List<String> items = [
-    "select"
+    "select a city"
   ];
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
             }
           }print(items);
 
-          if (selectedValue != "select") {
+          if (selectedValue != "select a city") {
             List Temp = [];
             for (var c in SearchList) {
               if (c.get("hospital location") == selectedValue) {
@@ -98,70 +99,35 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
 
                   ),
                 ),
-                SingleChildScrollView(
-                  child:DropdownButtonHideUnderline(
-
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 10,right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        border: Border.all(
-                          color: Colors.blue,style: BorderStyle.solid,width: 0.80
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20,right: 30),
-                        child: DropdownButton2(
-
-                          style: TextStyle(
-
-                              color: Colors.blue
-                          ),
-
-                          dropdownDecoration: BoxDecoration(
-                              color: Colors.purple,
-                              border: Border.all(color: Colors.grey,width: 3),
-                              borderRadius: BorderRadius.circular(50),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, 0.57),
-                                    blurRadius: 5
-                                )
-                              ]
-                          ),
-
-                          hint: Text(
-                            'Select Item',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Theme.of(context).hintColor,
-                            ),
-                          ),
-                          items: items
-                              .map((item) =>DropdownMenuItem<String>(
-                            value:item,
-                            child:Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          )).toList(),
-
-                          value: selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value as String;
-                            });
-                          },
-                          buttonHeight: 40,
-                          buttonWidth: 140,
-                          itemHeight: 50,
-                        ),
-                      ),
-
-                    ),
+                DropdownFormField(
+                  onEmptyActionPressed: () async {},
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      labelText: "City"),
+                  onSaved: (dynamic str) {
+                  },
+                  onChanged: (dynamic str) {
+                    setState(() {
+                      selectedValue=str;
+                    });
+                  },
+                  validator: (dynamic str) {},
+                  displayItemFn: (dynamic item) => Text(
+                    item?? '',
+                    style: TextStyle(fontSize: 16),
                   ),
+                  findFn: (dynamic str) async => items,
+                  filterFn: (dynamic item, str) =>
+                  item.toLowerCase().indexOf(str.toLowerCase()) >= 0,
+                  dropdownItemFn: (dynamic item, position, focused,
+                      dynamic lastSelectedItem, onTap) =>
+                      ListTile(
+                        title: Text(item),
+                        tileColor:
+                        focused ? Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
+                        onTap: onTap,
+                      ),
                 ),
                 SizedBox(
                   height: 10,
