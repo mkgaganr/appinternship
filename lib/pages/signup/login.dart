@@ -11,9 +11,12 @@ import 'package:clinic/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   String email = "";
   String password = "";
   final _formKey = GlobalKey<FormState>();
-
+   Map<String,dynamic>? _userData;
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore.instance.collection("temp").add({"woo": "hoo"});
@@ -199,9 +202,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         icon: FaIcon(FontAwesomeIcons.facebook,color: Colors.blue,),
                         onPressed: (){
-                          final provider =Provider.of<GoogleSignInPovider>(context,listen: false);
+                          signInFacebook();
 
-                        },label: Text('Sign Up with Facebook '))
+                        },label: Text('Login with Facebook '))
                   ],
                 ),
               ],
@@ -211,4 +214,19 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  Future<UserCredential> signInFacebook() async {
+    final LoginResult loginResult = await FacebookAuth.instance.login(
+        permissions: ['email', 'name']);
+    if (loginResult == LoginStatus.success) {
+      final userData = await FacebookAuth.instance.getUserData();
+      _userData = userData;
+    }
+    else{
+      print(loginResult.message);
+    }
+    final OAuthCredential oAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    return FirebaseAuth.instance.signInWithCredential(oAuthCredential);
+  }
+
+
 }

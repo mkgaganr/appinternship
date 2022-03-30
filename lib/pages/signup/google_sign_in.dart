@@ -9,6 +9,7 @@ import '../welcome/CheckLogin.dart';
 
 class GoogleSignInPovider{
 
+
   Future  LoginWithGoogle(BuildContext context) async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -24,27 +25,43 @@ class GoogleSignInPovider{
     );
 
     // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .add({
-        "name": value.user!.displayName,
-        "uid": value.user!.uid
-      }).then((value) {
-        Fluttertoast.showToast(
-            msg: "Registration Successful");
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DashboardPage()),
-        );
-      });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CheckLoginPage()),
-      );
-    });
+
+      await FirebaseAuth.instance.signInWithCredential(credential).then((
+          value) async {
+        await FirebaseFirestore.instance.collection('users').where('uid',isEqualTo:value.user!.uid).get().then((check) async {
+
+
+          if(
+
+            check.docs.length==0
+          )
+
+            {
+            await FirebaseFirestore.instance
+                .collection("users")
+                .add({
+              "name": value.user!.displayName,
+              "uid": value.user!.uid
+            }).then((value) {
+              Fluttertoast.showToast(
+                  msg: "Registration Successful");
+
+            });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CheckLoginPage()),
+            );
+          }
+          Fluttertoast.showToast(
+              msg: "Login Successful");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => DashboardPage()),
+          );
+        });
+        });
 
   }
   Future signInWithGoogle(BuildContext context) async {
@@ -63,27 +80,41 @@ class GoogleSignInPovider{
     );
 
     // Once signed in, return the UserCredential
-    await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .add({
-        "name": value.user!.displayName,
-        "uid": value.user!.uid
-      }).then((value) {
+    await FirebaseAuth.instance.signInWithCredential(credential).then((
+        value) async {
+      await FirebaseFirestore.instance.collection('users').where('uid',isEqualTo:value.user!.uid).get().then((check) async {
+
+
+        if(
+
+        check.docs.length==0
+        )
+
+        {
+          await FirebaseFirestore.instance
+              .collection("users")
+              .add({
+            "name": value.user!.displayName,
+            "uid": value.user!.uid
+          }).then((value) {
+            Fluttertoast.showToast(
+                msg: "Registration Successful");
+
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CheckLoginPage()),
+          );
+        }
         Fluttertoast.showToast(
-            msg: "Registration Successful");
+            msg: "Sign up Successful");
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => DashboardPage()),
         );
       });
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CheckLoginPage()),
-      );
     });
-
   }
 }
