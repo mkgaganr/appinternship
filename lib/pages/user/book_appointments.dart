@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:select_form_field/select_form_field.dart';
 class BookAppointmentsPage extends StatefulWidget {
   const BookAppointmentsPage({ Key? key }) : super(key: key);
 
@@ -15,10 +17,10 @@ class BookAppointmentsPage extends StatefulWidget {
 
 class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
   TextEditingController _searchcontroller = TextEditingController();
-  var selectedValue="select a city";
+  var selectedValue="Cities";
   var select = "select";
-  List<String> items = [
-    "select a city"
+  List<String> items1 = [
+    "Cities"
   ];
   @override
   Widget build(BuildContext context) {
@@ -67,15 +69,17 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
           }
 
           for (var v in snapshot.data.docs) {
-            if (!items.contains(v.get("hospital location"))) {
-              items.add(v.get("hospital location"));
+            if (!items1.contains(v.get("City"))) {
+              items1.add(v.get("City"));
             }
-          }print(items);
+          }print(items1);
 
-          if (selectedValue != "select a city") {
+          if (selectedValue != "Cities") {
             List Temp = [];
+            Fluttertoast.showToast(
+                msg: "Record found");
             for (var c in SearchList) {
-              if (c.get("hospital location") == selectedValue) {
+              if (c.get("City") == selectedValue) {
                 Temp.add(c);
               }
             }
@@ -99,6 +103,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
 
                   ),
                 ),
+
                 DropdownFormField(
                   onEmptyActionPressed: () async {},
                   decoration: InputDecoration(
@@ -117,7 +122,7 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
                     item?? '',
                     style: TextStyle(fontSize: 16),
                   ),
-                  findFn: (dynamic str) async => items,
+                  findFn: (dynamic str) async => items1,
                   filterFn: (dynamic item, str) =>
                   item.toLowerCase().indexOf(str.toLowerCase()) >= 0,
                   dropdownItemFn: (dynamic item, position, focused,
@@ -216,6 +221,28 @@ class _BookAppointmentsPageState extends State<BookAppointmentsPage> {
                                     Icon(
                                       Icons.location_on_outlined,
                                       color: Colors.brown,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    new Text(
+                                      'City : ',
+                                      style: TextStyle(
+                                          color: Colors.purple, fontSize: 20),
+                                    ),
+                                    new Text(
+                                      Hospital['City'],
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Colors.purple, fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.location_city,
+                                      color: Colors.purple,
                                     )
                                   ],
                                 ),

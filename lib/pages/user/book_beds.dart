@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class BookBedsPage extends StatefulWidget {
   const BookBedsPage({Key? key}) : super(key: key);
 
@@ -19,10 +19,10 @@ class BookBedsPage extends StatefulWidget {
 
 class _BookBedsPageState extends State<BookBedsPage> {
   TextEditingController _searchcontroller = TextEditingController();
-  var selectedValue="select a city";
+  var selectedValue="Cities";
   var select = "select";
   List<String> items = [
-    "select a city"
+    "Cities"
   ];
 
   @override
@@ -61,32 +61,35 @@ class _BookBedsPageState extends State<BookBedsPage> {
 
           List SearchList = [];
           for (var v in snapshot.data.docs) {
-            if (_searchcontroller.text.trim() == "") {
+            if (_searchcontroller.text.toLowerCase().trim() == "") {
               SearchList = snapshot.data.docs;
               break;
             } else {
-              if (v.data()['field1'].contains(_searchcontroller.text.trim())) {
+              if (v.data()['field1'].contains(_searchcontroller.text.toUpperCase().trim())) {
                 SearchList.add(v);
               }
             }
           }
 
           for (var v in snapshot.data.docs) {
-            if (!items.contains(v.get("field3"))) {
-              items.add(v.get("field3"));
+            if (!items.contains(v.get("City"))) {
+              items.add(v.get("City"));
             }
           }print(items);
 
-          if (selectedValue != "select a city") {
+          if (selectedValue != "Cities") {
             List Temp = [];
+            Fluttertoast.showToast(
+                msg: "Record found");
             for (var c in SearchList) {
-              if (c.get("field3") == selectedValue) {
+              if (c.get("City") == selectedValue) {
                 Temp.add(c);
               }
             }
             SearchList = Temp;
 
           }
+
 
           return SizedBox(
             height: MediaQuery.of(context).size.height,
@@ -253,6 +256,28 @@ class _BookBedsPageState extends State<BookBedsPage> {
                                     child: Row(
                                       children: [
                                         new Text(
+                                          'City : ',
+                                          style: TextStyle(
+                                              color: Colors.brown, fontSize: 20),
+                                        ),
+                                        new Text(
+                                          Hospital['City'],
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(
+                                              color: Colors.brown, fontSize: 18),
+                                        ),
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          color: Colors.brown,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        new Text(
                                           'No of beds available : ',
                                           style: TextStyle(
                                               color: Colors.purple, fontSize: 20),
@@ -270,6 +295,7 @@ class _BookBedsPageState extends State<BookBedsPage> {
                                       ],
                                     ),
                                   ),
+
                                   SizedBox(height: 10),
                                   ElevatedButton(
                                     onPressed: () {
