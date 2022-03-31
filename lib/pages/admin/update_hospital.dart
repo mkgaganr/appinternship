@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 
 class HospitalList extends StatefulWidget {
@@ -66,35 +67,50 @@ class _HospitalListState extends State<HospitalList> {
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Row(
-                        children: [
-                          Text('Hospital name:'),
-                          Text(Hospital['field1']),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('Hospital name:'),
+                            Text(Hospital['field1']),
+                          ],
+                        ),
                       ),
-                      Row(
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                      child:Row(
                         children: [
                           Text('City:'),
                           Text(Hospital[ 'City']),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text('Hospital description:'),
-                          Text(Hospital[ 'field2']),
-                        ],
                       ),
-                      Row(
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('Hospital description:'),
+                            Text(Hospital[ 'field2']),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                      child:Row(
                         children: [
                           Text('Hospital location:'),
                           Text(Hospital['field3']),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text('No of beds:'),
-                          Text(Hospital['noofbeds'].toString()),
-                        ],
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('No of beds:'),
+                            Text(Hospital['noofbeds'].toString()),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
                       ElevatedButton(onPressed: () async {

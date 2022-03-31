@@ -47,7 +47,7 @@ class _AddhospitalState extends State<Addhospital> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                
+
 
 
                 const SizedBox(
@@ -149,23 +149,23 @@ class _AddhospitalState extends State<Addhospital> {
                     )),
 
                 MyButton(
-                        onPressed: (){
-                        if(_formKey.currentState!.validate()){
-                       Map <String,dynamic> data=
+                    onPressed: (){
+                      if(_formKey.currentState!.validate()){
+                        Map <String,dynamic> data=
                         {"field1" :field1,
-                        "field2":field2,
-                        "field3":field4,"noofbeds":int.parse(noofbeds),"City":field3};
-                     FirebaseFirestore.instance.collection("test").add(data);
-                     Fluttertoast.showToast(msg: "Added Successfully");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Admin()));
-                     }
-                     }, text: "add"
-                ), 
+                          "field2":field2,
+                          "field3":field4,"noofbeds":int.parse(noofbeds),"City":field3};
+                        FirebaseFirestore.instance.collection("test").add(data);
+                        Fluttertoast.showToast(msg: "Added Successfully");
+                        Navigator.of(context).pop();
+                      }
+                    }, text: "add"
+                ),
                 SizedBox(
                   height: 10,
                 ),
                 MyButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HospitalList()));}, text: "Posted Hospitals"), // MyButton
-                
+
               ],
             ),
           ),

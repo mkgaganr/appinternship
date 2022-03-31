@@ -99,37 +99,37 @@ class _ApprovePageState extends State<ApproveBedsPage> {
                     children: <Widget>[
                       Row(
                        children: [
-                         Text('Email:'),
+                         Text('Email : '),
                          Text(Booking['Email'], overflow: TextOverflow.clip,),
                        ],
                       ),
                       Row(
                         children: [
-                          Text('Doctor name:'),
+                          Text('Name : '),
                           Text(Booking['Name'], overflow: TextOverflow.clip,),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Phone number:'),
+                          Text('Phone number : '),
                           Text(Booking['PhoneNumber']),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Status:'),
+                          Text('Status : '),
                           Text(Booking['Status']),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('No of beds:'),
+                          Text('No of beds : '),
                           Text(Booking['beds'].toString()),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Hospital Name:'),
+                          Text('Hospital Name : '),
                           Text(Booking['hospital']),
                         ],
                       ),

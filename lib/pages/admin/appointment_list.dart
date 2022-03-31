@@ -65,35 +65,50 @@ class _AppointmentListState extends State<AppointmentList> {
                   title: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text('Doctor name:'),
-                          Text(Appointment['doctor name']),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('Doctor name:'),
+                            Text(Appointment['doctor name']),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text('Hospital description:'),
-                          Text(Appointment['hospital description']),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('Hospital description:'),
+                            Text(Appointment['hospital description']),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text('Hospital location:'),
-                          Text(Appointment['hospital location']),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('Hospital location:'),
+                            Text(Appointment['hospital location']),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text('City:'),
-                          Text(Appointment['City']),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('City:'),
+                            Text(Appointment['City']),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text('Time:'),
-                          Text(Appointment['time']),
-                        ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Text('Time:'),
+                            Text(Appointment['time']),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 10),
                       ElevatedButton(onPressed: () async {

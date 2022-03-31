@@ -114,7 +114,7 @@ class _SignUpAdminPageState extends State<SignUpAdminPage> {
                           validator: (value) {
                             value ??= "";
                             if (value.trim() == "") {
-                              return "Full name required";
+                              return "Password required";
                             }
                           },
                           onChanged: (value) {

@@ -1,4 +1,5 @@
 import 'package:clinic/pages/admin/update_hospital.dart';
+import 'package:clinic/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +24,7 @@ class _EditHospitalState extends State<EditHospital> {
   String field3 = "";
   String field4 = "";
   String City = "";
+  final _formKey = GlobalKey<FormState>();
   void initState() {
     super.initState();
     field1 = widget.data['field1'];
@@ -51,122 +53,137 @@ class _EditHospitalState extends State<EditHospital> {
       ),
       body: Center(
       
-        child: Container(
-          padding: EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['field1'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Hospital name",
-                  ),
-                  onChanged: (value) {
-                    field1 = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "Hospital name required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['City'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "City",
-                  ),
-                  onChanged: (value) {
-                    City = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "City required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['field2'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Hospital description",
-                  ),
-                  onChanged: (value) {
-                    field2 = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "Hospital description required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['field3'].toString(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Hospital Location",
-                  ),
-                  onChanged: (value) {
-                    field3=value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "beds required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-
-
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['noofbeds'].toString(),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "No of beds",
-                  ),
-                  onChanged: (value) {
-                    field4 = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "Hospital location required";
-                    }
-                  }),
-              const SizedBox(
-                height: 10,
-              ),
-
-                SizedBox(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                Form(
+                  key: _formKey,
+              child: Column(
+              children: [
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['field1'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Hospital name",
+                    ),
+                    onChanged: (value) {
+                      field1 = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "Hospital name required";
+                      }
+                    }),
+                const SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(onPressed: () async {
-                  Map <String,dynamic> data1={"field1" :field1,"field2":field2,"field3":field3,"noofbeds":int.parse(field4),"City":City};
-                    await FirebaseFirestore.instance.collection("test").doc(widget.id).update(data1);
-                    Fluttertoast.showToast(msg: "Update Successful");
-                    Navigator.of(context).pop();
-                },
-                 child: Text("Update Data"),
-                 ),
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['City'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "City",
+                    ),
+                    onChanged: (value) {
+                      City = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "City required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['field2'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Hospital description",
+                    ),
+                    onChanged: (value) {
+                      field2 = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "Hospital description required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['field3'].toString(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Hospital Location",
+                    ),
+                    onChanged: (value) {
+                      field3=value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "Hospital location required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
 
-            ],
+
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['noofbeds'].toString(),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "No of beds",
+                    ),
+                    onChanged: (value) {
+                      field4 = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "No of beds Required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 5,
+                ),
+              ],
+              )),
+
+
+                SizedBox(
+                    height: 10,
+                  ),
+                  MyButton(onPressed: () async {
+                    if(_formKey.currentState!.validate()) {
+                      Map <String, dynamic> data1 = {
+                        "field1": field1,
+                        "field2": field2,
+                        "field3": field3,
+                        "noofbeds": int.parse(field4),
+                        "City": City};
+                      await FirebaseFirestore.instance.collection("test").doc(
+                          widget.id).update(data1);
+                      Fluttertoast.showToast(msg: "Update Successful");
+                      Navigator.of(context).pop();
+                    }
+                  },
+                    text: "update",
+                   ),
+              ],
+            ),
           ),
-        ), 
+        ),
       ),
-      
     );
   }
 }

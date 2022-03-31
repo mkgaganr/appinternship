@@ -146,13 +146,12 @@ class _AddhospitalState extends State<Edithospital1> {
 
                 MyButton(
                     onPressed: () async {
-                      if(_formKey.currentState!.validate()){
                         Map <String,dynamic> data1={"field1" :field1,"field2":field2,"field3":field3,"noofbeds":int.parse(field4)};
                         await FirebaseFirestore.instance.collection("test").doc(widget.id).update(data1);
                         Fluttertoast.showToast(msg: "Update Successful");
                         Navigator.of(context).pop();
-                      }
-                    }, text: "add"
+
+                    }, text: ""
                 ),
                 SizedBox(
                   height: 10,

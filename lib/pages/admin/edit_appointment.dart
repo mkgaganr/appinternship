@@ -1,8 +1,10 @@
 import 'package:clinic/pages/admin/appointment_list.dart';
+import 'package:clinic/widgets/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -21,6 +23,7 @@ class _EditAppointmentState extends State<EditAppointment> {
   String field3 = "";
   String field4 = "";
   String time = "";
+  final _formKey = GlobalKey<FormState>();
   void initState() {
     super.initState();
     field1 = widget.data['doctor name'];
@@ -49,122 +52,139 @@ class _EditAppointmentState extends State<EditAppointment> {
       ),
       body: Center(
 
-        child: Container(
-          padding: EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['doctor name'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Hospital name",
-                  ),
-                  onChanged: (value) {
-                    field1 = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "Hospital name required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['hospital description'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "hospital description",
-                  ),
-                  onChanged: (value) {
-                    field2 = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "City required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['hospital location'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Hospital location",
-                  ),
-                  onChanged: (value) {
-                    field3 = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "Hospital description required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['City'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "City",
-                  ),
-                  onChanged: (value) {
-                    field4=value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "beds required";
-                    }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+
+               children:[
+                Form(
+                key: _formKey,
+               child: Column(
+              children: [
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['doctor name'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Doctor name",
+                    ),
+                    onChanged: (value) {
+                      field1 = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "Doctor name required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['hospital description'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "hospital description",
+                    ),
+                    onChanged: (value) {
+                      field2 = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "City required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['hospital location'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Hospital location",
+                    ),
+                    onChanged: (value) {
+                      field3 = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "Hospital location required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['City'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "City",
+                    ),
+                    onChanged: (value) {
+                      field4=value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "City required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 20,
+                ),
 
 
-              TextFormField(
-                  controller: TextEditingController()..text = widget.data['time'],
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Time",
-                  ),
-                  onChanged: (value) {
-                    time = value;
-                  },
-                  validator: (value) {
-                    value ??= "";
-                    if (value.trim() == "") {
-                      return "Hospital location required";
-                    }
-                  }),
-              const SizedBox(
-                height: 10,
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(onPressed: () async {
-                Map <String,dynamic> data1={"doctor name" :field1,"hospital description":field2,"hospital location":field3,"time":time,"City":field4};
-                await FirebaseFirestore.instance.collection("appointment").doc(widget.id).update(data1);
-                Fluttertoast.showToast(msg: "Update Successful");
-                Navigator.of(context).pop();
-              },
-                child: Text("Update Data"),
-              ),
-
-            ],
+                TextFormField(
+                    controller: TextEditingController()..text = widget.data['time'],
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Time",
+                    ),
+                    keyboardType: TextInputType.datetime,
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9:]'))],
+                    onChanged: (value) {
+                      time = value;
+                    },
+                    validator: (value) {
+                      value ??= "";
+                      if (value.trim() == "") {
+                        return "Time required";
+                      }
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+               )),
+                SizedBox(
+                  height: 10,
+                ),
+                MyButton(onPressed: () async {
+                  if(_formKey.currentState!.validate()) {
+                    Map <String, dynamic> data1 = {
+                      "doctor name": field1,
+                      "hospital description": field2,
+                      "hospital location": field3,
+                      "time": time,
+                      "City": field4
+                    };
+                    await FirebaseFirestore.instance.collection("appointment")
+                        .doc(widget.id)
+                        .update(data1);
+                    Fluttertoast.showToast(msg: "Update Successful");
+                    Navigator.of(context).pop();
+                  }
+                },
+                  text:"Update Data"),
+               ],
+            ),
           ),
         ),
       ),
-
     );
   }
 }

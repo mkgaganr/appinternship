@@ -52,7 +52,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                 ),
 
 
-                
+
 
                 Form(
                     key: _formKey,
@@ -106,7 +106,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                                 return "City required";
                               }
                             }),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
@@ -131,6 +131,8 @@ class _AddAppointmentState extends State<AddAppointment> {
                               border: OutlineInputBorder(),
                               hintText: "Time",
                             ),
+                            keyboardType: TextInputType.datetime,
+                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9:]'))],
                             onChanged: (value) {
                               time =value;
                             },
@@ -157,12 +159,12 @@ class _AddAppointmentState extends State<AddAppointment> {
                         };
                         FirebaseFirestore.instance.collection("appointment").add(data);
                         Fluttertoast.showToast(msg: "Added Successfully");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Admin()));
-                        
-                        }
-                        
-                        }, 
-                        text: "add"
+                        Navigator.of(context).pop();
+
+                      }
+
+                    },
+                    text: "add"
                 ),  // MyButton
                 SizedBox(
                   height: 10,
