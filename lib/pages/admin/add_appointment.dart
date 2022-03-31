@@ -19,6 +19,7 @@ class _AddAppointmentState extends State<AddAppointment> {
   String field2 = "";
   String field3 = "";
   String time="";
+  String City="";
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -94,6 +95,23 @@ class _AddAppointmentState extends State<AddAppointment> {
                         TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
+                              hintText: "City",
+                            ),
+                            onChanged: (value) {
+                              City = value;
+                            },
+                            validator: (value) {
+                              value ??= "";
+                              if (value.trim() == "") {
+                                return "City required";
+                              }
+                            }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
                               hintText: "hospital location",
                             ),
                             onChanged: (value) {
@@ -113,8 +131,6 @@ class _AddAppointmentState extends State<AddAppointment> {
                               border: OutlineInputBorder(),
                               hintText: "Time",
                             ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             onChanged: (value) {
                               time =value;
                             },
@@ -136,7 +152,8 @@ class _AddAppointmentState extends State<AddAppointment> {
                         Map <String,dynamic> data=
                         {"doctor name" :field1,
                           "hospital description":field2,
-                          "hospital location":field3,"time":time
+                          "hospital location":field3,"time":time,
+                          "City":City
                         };
                         FirebaseFirestore.instance.collection("appointment").add(data);
                         Fluttertoast.showToast(msg: "Added Successfully");

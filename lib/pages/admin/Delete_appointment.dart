@@ -20,12 +20,14 @@ class _EditAppointmentState extends State<DeleteAppointment> {
   String field2 = "";
   String field3 = "";
   String field4 = "";
+  String City="";
   void initState() {
     super.initState();
     field1 = widget.data['doctor name'];
     field2 = widget.data['hospital description'];
     field3 = widget.data['hospital location'];
     field4 = widget.data['time'];
+    City=widget.data['City'];
   }
   @override
   Widget build(BuildContext context) {
@@ -71,6 +73,13 @@ class _EditAppointmentState extends State<DeleteAppointment> {
                   field3 = value;
                 },
               ),
+              TextField(
+                controller: TextEditingController()..text = widget.data['City'],
+                onChanged: (value){
+                  City = value;
+                },
+              ),
+
               TextField(
                 controller: TextEditingController()..text = widget.data['time'],
                 onChanged: (value){

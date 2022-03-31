@@ -74,6 +74,12 @@ class _HospitalListState extends State<HospitalList> {
                       ),
                       Row(
                         children: [
+                          Text('City:'),
+                          Text(Hospital[ 'City']),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Text('Hospital description:'),
                           Text(Hospital[ 'field2']),
                         ],

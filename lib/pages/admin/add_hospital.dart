@@ -95,7 +95,7 @@ class _AddhospitalState extends State<Addhospital> {
                         TextFormField(
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "hospital location",
+                              hintText: "City",
                             ),
                             onChanged: (value) {
                               field3 = value;
@@ -103,7 +103,7 @@ class _AddhospitalState extends State<Addhospital> {
                             validator: (value) {
                               value ??= "";
                               if (value.trim() == "") {
-                                return "Hospital location required";
+                                return "City required";
                               }
                             }),
                         const SizedBox(
@@ -117,12 +117,29 @@ class _AddhospitalState extends State<Addhospital> {
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                             onChanged: (value) {
-                              noofbeds =value;
+                              noofbeds=value;
                             },
                             validator: (value) {
                               value ??= "";
                               if (value.trim() == "") {
                                 return "beds required";
+                              }
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "hospital location",
+                            ),
+                            onChanged: (value) {
+                              field4 = value;
+                            },
+                            validator: (value) {
+                              value ??= "";
+                              if (value.trim() == "") {
+                                return "Hospital location required";
                               }
                             }),
                         const SizedBox(
@@ -137,7 +154,7 @@ class _AddhospitalState extends State<Addhospital> {
                        Map <String,dynamic> data=
                         {"field1" :field1,
                         "field2":field2,
-                        "field3":field3,"noofbeds":int.parse(noofbeds)};
+                        "field3":field4,"noofbeds":int.parse(noofbeds),"City":field3};
                      FirebaseFirestore.instance.collection("test").add(data);
                      Fluttertoast.showToast(msg: "Added Successfully");
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Admin()));

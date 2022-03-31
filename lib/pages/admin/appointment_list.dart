@@ -85,6 +85,12 @@ class _AppointmentListState extends State<AppointmentList> {
                       ),
                       Row(
                         children: [
+                          Text('City:'),
+                          Text(Appointment['City']),
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Text('Time:'),
                           Text(Appointment['time']),
                         ],

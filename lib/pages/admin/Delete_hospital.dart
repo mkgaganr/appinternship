@@ -22,11 +22,13 @@ class _EditHospitalState extends State<DeleteHospital> {
   String field2 = "";
   String field3 = "";
   String field4 = "";
+  String City = "";
   void initState() {
     super.initState();
     field1 = widget.data['field1'];
     field2 = widget.data['field2'];
     field3 = widget.data['field2'];
+    City= widget.data['City'];
     field4 = widget.data['noofbeds'].toString();
   }
   @override
@@ -71,6 +73,12 @@ class _EditHospitalState extends State<DeleteHospital> {
                 controller: TextEditingController()..text = widget.data['field3'],
                 onChanged: (value){
                   field3 = value;
+                },
+              ),
+              TextField(
+                controller: TextEditingController()..text = widget.data['City'],
+                onChanged: (value){
+                  City = value;
                 },
               ),
               TextField(
